@@ -1,0 +1,28 @@
+<!-- <app-root entrada=false></app-root> -->
+
+<body>
+
+    <section>
+        <div class="items">
+
+            <div class="imagen">
+                <img src="../../../assets/logo.png" alt="">
+            </div>
+
+            <div class="text_area">
+                <input type="text" placeholder="Usuario" #user>
+                <input type="password" placeholder="Contraseña" #userPassword>
+            </div>
+        
+            <div class="botones">
+                <!-- <button>Registrar</button> -->
+                <button (click)='onLogin(user.value,userPassword.value)'>Log In</button>
+            </div>
+
+            <div class="opcion">
+                <a href="#">¿Olvidó su password?</a>
+            </div>
+        </div>
+    </section>
+
+</body>

@@ -1,0 +1,28 @@
+<app-root entrada=true></app-root>
+<body>
+    <section class="pestañas">
+        <div class="contenedor" #cont>
+            <div class="categoria" style="cursor: pointer;" (click)='toPropuestas(propEst,cont)' #propEst>
+                <a >Propuestas Estudiantiles</a>
+            </div>
+            <div class="categoria" style="cursor: pointer;" (click)='toPropuestas(apCursos,cont)' #apCursos>
+                <a >Apertura de cursos</a>
+            </div>
+            <div class="categoria" style="cursor: pointer;" (click)='toPropuestas(proy,cont)' #proy>
+                <a >Proyectos</a>
+            </div>
+        </div>
+    </section>
+    <div class="fondo"></div>
+    
+    <section class="comentarios">
+        <div class="post">
+            <input type="text" (change)='myMessage()' [(ngModel)]='userChat.text' placeholder="Ingresa tu comentario...">
+            <button>Postear</button>
+        </div>
+
+        <div *ngFor='let m of myMessages' >
+            <app-post [userChat]=(m) [actualComponent]=actualComponent [isAdmin]=isAdmin (eventoHijo)="onMensajeHijo($event)"></app-post>
+        </div>
+    </section>
+</body>

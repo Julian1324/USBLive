@@ -1,0 +1,206 @@
+body {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    -webkit-box-sizing: border-box;
+            box-sizing: border-box;
+    font-family: 'Roboto', sans-serif;
+    background-image: url('../../../assets/universidad.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+  }
+  
+  section {
+    width: 30%;
+    height: 60%;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: 20px;
+    -webkit-box-sizing: border-box;
+            box-sizing: border-box;
+    background: #eb5f287c;
+    -webkit-backdrop-filter: blur(4px);
+            backdrop-filter: blur(4px);
+    -webkit-box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;
+            box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;
+  }
+  
+  section .items {
+    width: 100%;
+    height: 100%;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    -ms-flex-pack: distribute;
+        justify-content: space-around;
+  }
+  
+  section .items .imagen {
+    width: 100%;
+    height: 100%;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+  }
+  
+  section .items .imagen img {
+    width: 40%;
+    -ms-flex-item-align: center;
+        -ms-grid-row-align: center;
+        align-self: center;
+  }
+  
+  section .items .text_area {
+    width: 100%;
+    height: 100%;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    -webkit-box-pack: justify;
+        -ms-flex-pack: justify;
+            justify-content: space-between;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+  }
+  
+  section .items .text_area input {
+    width: 70%;
+    background-color: transparent;
+    border: none;
+    border-bottom: 1px solid #403D39;
+    outline: none;
+    font-size: 20px;
+    font-weight: 400px;
+    color: #403D39;
+  }
+  
+  section .items .text_area input::-webkit-input-placeholder {
+    color: white;
+    opacity: 0.5;
+  }
+  
+  section .items .text_area input:-ms-input-placeholder {
+    color: white;
+    opacity: 0.5;
+  }
+  
+  section .items .text_area input::-ms-input-placeholder {
+    color: white;
+    opacity: 0.5;
+  }
+  
+  section .items .text_area input::placeholder {
+    color: white;
+    opacity: 0.5;
+  }
+  
+  section .items .botones {
+    width: 100%;
+    height: 100%;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-pack: distribute;
+        justify-content: space-around;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+  }
+  
+  section .items .botones button {
+    width: 40%;
+    height: 40px;
+    background-color: #403D39;
+    border: none;
+    border-radius: 30px;
+    font-size: 20px;
+    color: #CCC5B9;
+  }
+  
+  section .items .botones button:hover {
+    background-color: #CCC5B9;
+    color: #403D39;
+    cursor: pointer;
+  }
+  
+  section .items .opcion {
+    width: 100%;
+    height: 50%;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: space-evenly;
+        -ms-flex-pack: space-evenly;
+            justify-content: space-evenly;
+    -webkit-box-align: start;
+        -ms-flex-align: start;
+            align-items: flex-start;
+  }
+  
+  section .items .opcion a {
+    text-decoration: none;
+    color: #CCC5B9;
+    font-size: 15px;
+  }
+  
+  section .items .opcion a:hover {
+    color: #403D39;
+  }
+  
+  @media only screen and (max-width: 1024px) {
+    section {
+      width: 60vw;
+      height: 50vh;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    section {
+      width: 60vw;
+      height: 50vh;
+    }
+  }
+  
+  @media (max-width: 414px) {
+    section {
+      width: 70vw;
+      height: 50vh;
+    }
+  }
+  
+  @media (max-width: 375px) {
+    section {
+      width: 70vw;
+      height: 50vh;
+    }
+    section .botones {
+      font-size: 40px;
+    }
+  }
+  /*# sourceMappingURL=style.css.map */

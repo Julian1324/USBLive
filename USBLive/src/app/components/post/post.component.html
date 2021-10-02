@@ -1,0 +1,16 @@
+<div class="contenedor">
+    <div class="perfil">
+        <img class="imgPerfil" src="../../../assets/cara.jpg" alt="">
+        <p class="nombre-user">{{userChat.user}}</p>
+    </div>
+
+    <div class="comentario">
+        <p>{{userChat.text}}</p>
+    </div>
+
+    <div class="linea-division">
+        <img style="width: 30px; height: 30px; cursor: pointer;" (click)='like(this)' src="../../../assets/like.svg" alt="">
+        <span>{{userChat.likes}}</span>
+        <button class="verLikesAdmin" *ngIf='isAdmin' (click)='verLikesAdmin()'>Ver likes</button>
+    </div>
+</div>
