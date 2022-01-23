@@ -1,4 +1,4 @@
-<div class="contenedor">
+<!-- <div class="contenedor">
     <div class="perfil">
         <img class="imgPerfil" src="../../../assets/cara.jpg" alt="">
         <p class="nombre-user">{{userChat.user}}</p>
@@ -21,4 +21,33 @@
     </div>
 
     <app-comment *ngFor='let m of userChat.userComments' [userComments]=m [isAdmin]=isAdmin [userChat]=this.userChat></app-comment>
+</div> -->
+
+<div class="commentCont">
+    <div class="userBox">
+        <div class="userPicture"></div>
+        <div class="likeBox">
+            <div class="likeButton" (click)='like(this)'></div>
+            <div class="likeCant">{{userChat.likes}}</div>
+        </div>
+    </div>
+    <div class="propBox">
+        <div class="messageBox">{{userChat.text}}
+        </div>
+        <div class="toComentBox">
+            <input type="text" class="myTextCamp">
+            <button class="enviarC">Comentar</button>
+        </div>
+
+        <!-- <div class="userComment">
+            <div class="userPictureComment"></div>
+            <div class="commentText">Ipsum dolor sit amet, consectetuer adipiscing elit, sed
+                diam nonummy nibh euismod Lorem ipsum dolor sit amet</div>
+        </div>
+        <div class="userComment">
+            <div class="userPictureComment"></div>
+            <div class="commentText">Ipsum dolor sit amet, consectetuer adipiscing elit, sed
+                diam nonummy nibh euismod Lorem ipsum dolor sit amet</div>
+        </div> -->
+    </div>
 </div>
