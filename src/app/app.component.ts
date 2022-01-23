@@ -1,4 +1,7 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { WebSocketService } from 'src/app/services/web-socket.service';
+import { FirestoreService } from 'src/app/services/firestore.service';
 
 @Component({
   selector: 'app-root',
@@ -11,8 +14,26 @@ export class AppComponent {
   
   title = 'USBLive';
 
-  constructor() {
+  userChat={
+    id:0,
+    user:'',
+    text: '',
+    likes:0,
+    userLikes:[],
+    userComments:[]
+  }
+  myMessages:any=[];
+  eventName='send-message';
+  mensajeHijo={};
+  actualComponent:any;
+  isAdmin:boolean=false;
+
+  constructor(private activated: ActivatedRoute, private webService: WebSocketService, private fireService: FirestoreService) {
     this.entrada='';
+  }
+
+  ngOnInit(): void {
+
   }
 
   ngOnChanges(): void{
@@ -24,7 +45,56 @@ export class AppComponent {
     
   }
 
-  ngOnInit(): void {
+  toOtherSection(comp:any, cont:any ){
+    for (let i = 0; i < cont.children.length; i++) {
 
+      cont.children[i].style.boxShadow='0px 0px';
+      cont.children[i].style.backgroundColor='#f2f2f2';
+      
+    }
+
+    comp.style.borderRadius= '26px 26px 0px 0px';
+    comp.style.backgroundColor= 'white';
+
+    if(comp.innerText=='Propuestas estudiantiles'){
+      this.refreshMessages('propuestas');
+      this.actualComponent=comp.innerText;
+    }
+
+    if(comp.innerText=='Apertura de cursos'){
+      this.refreshMessages('aperturas');
+      this.actualComponent=comp.innerText;
+    }
+
+    if(comp.innerText=='Proyectos'){
+      this.refreshMessages('proyectos');
+      this.actualComponent=comp.innerText;
+    }
+  }
+
+  refreshMessages(section:string){
+    this.webService.emit('init-app', this.userChat);
+
+    this.fireService.getMessages(section).then( (snapshot) => {
+      
+      if (snapshot.exists()) {
+        snapshot.forEach((data:any) => {
+          this.userChat= data.val();
+          // this.myMessages= this.userChat;
+          
+          this.webService.emit(this.eventName, this.userChat );
+        });
+        
+      } else {
+        console.log("No data available");
+      }
+    }).catch((error) => {
+      console.error(error);
+    });
+
+  }
+
+  toHome(){
+    console.log('To home coñño');
   }
 }

@@ -1,16 +1,13 @@
 <div *ngIf=mostrar>
-    <body >
-        <header>
-            <div class="imagen">
-                <a href="https://www.youtube.com/">
-                <img src="../assets/logo.png" alt="">
-                </a>   
+    <div id="nav">
+        <div class="mainheader">
+            <div class="logoPRODUEMPAK" (click)="toHome()"></div>
+            <div class="hoptions" #cont>
+              <div class="headerOption" (click)="toOtherSection(propEst, cont)" #propEst> Propuestas estudiantiles </div>
+              <div class="headerOption" (click)="toOtherSection(apCursos, cont)" #apCursos> Apertura de cursos </div>
+              <div class="headerOption" (click)="toOtherSection(proy, cont)" #proy> Proyectos </div>
             </div>
-            <div class="log-out">
-                <a href="#">Log out</a>
-            </div>
-        </header>
-        
-    </body>
+        </div>
+    </div>
 </div>
 <router-outlet></router-outlet>

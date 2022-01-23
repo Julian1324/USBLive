@@ -1,126 +1,50 @@
-* {
-    margin: 0;
-    padding: 0;
-    -webkit-box-sizing: border-box;
-            box-sizing: border-box;
-    font-family: 'Roboto', sans-serif;
-  }
-  
-  body {
-    background: -webkit-gradient(linear, left top, left bottom, from(rgba(255, 255, 255, 0.15)), to(rgba(0, 0, 0, 0.15))), radial-gradient(at top center, rgba(255, 255, 255, 0.4) 0%, rgba(0, 0, 0, 0.4) 120%) #989898;
-    background: linear-gradient(to bottom, rgba(255, 255, 255, 0.15) 0%, rgba(0, 0, 0, 0.15) 100%), radial-gradient(at top center, rgba(255, 255, 255, 0.4) 0%, rgba(0, 0, 0, 0.4) 120%) #989898;
-    background-blend-mode: multiply,multiply;
-    display: -webkit-box;
-    display: -ms-flexbox;
-    display: flex;
-    -webkit-box-orient: vertical;
-    -webkit-box-direction: normal;
-        -ms-flex-direction: column;
-            flex-direction: column;
-    -webkit-box-pack: center;
-        -ms-flex-pack: center;
-            justify-content: center;
-    -webkit-box-align: center;
-        -ms-flex-align: center;
-            align-items: center;
-    width: 100%;
-    height: 100%;
-  }
-  
-  body header {
-    width: 100%;
-    padding: 5px 0;
-    background-color: #fffcf279;
-    -webkit-backdrop-filter: blur(4px);
-            backdrop-filter: blur(4px);
-    display: -webkit-box;
-    display: -ms-flexbox;
-    display: flex;
-    -webkit-box-pack: justify;
-        -ms-flex-pack: justify;
-            justify-content: space-between;
-    -webkit-box-align: center;
-        -ms-flex-align: center;
-            align-items: center;
-    position: -webkit-fixed;
-    position: fixed;
-    z-index: 20;
-    top: 0;
-  }
-  
-  body header .imagen {
-    display: -webkit-box;
-    display: -ms-flexbox;
-    display: flex;
-    -webkit-box-pack: center;
-        -ms-flex-pack: center;
-            justify-content: center;
-    margin-left: 1%;
-    display: flex;
-    -webkit-box-align: center;
-        -ms-flex-align: center;
-            align-items: center;
-    width: 20%;
-    height: 100%;
-  }
-  
-  body header .imagen a {
-    margin: 0;
-    padding: 0;
-  }
-  
-  body header .imagen a img {
-    width: 100%;
-    height: 100%;
-  }
-  
-  body header .log-out {
-    width: auto;
-    height: 100%;
-    display: -webkit-box;
-    display: -ms-flexbox;
-    display: flex;
-    -webkit-box-pack: center;
-        -ms-flex-pack: center;
-            justify-content: center;
-    margin-right: 20px;
-  }
-  
-  body header .log-out a {
-    display: -webkit-box;
-    display: -ms-flexbox;
-    display: flex;
-    -webkit-box-align: center;
-        -ms-flex-align: center;
-            align-items: center;
-    font-size: 2em;
-    font-weight: 700;
-    text-decoration: none;
-    color: #eb5e28;
-    text-align: center;
-  }
-  
-  body header .log-out a:hover {
-    color: #403D39;
-    border-bottom: 1px solid #eb5e28;
-  }
+*{
+  margin: 0;
+  padding: 0;
+}
 
-  body .comentarios {
-    display: -webkit-box;
-    display: -ms-flexbox;
-    display: flex;
-    -webkit-box-orient: vertical;
-    -webkit-box-direction: normal;
-        -ms-flex-direction: column;
-            flex-direction: column;
-    -webkit-box-pack: center;
-        -ms-flex-pack: center;
-            justify-content: center;
-    -webkit-box-align: center;
-        -ms-flex-align: center;
-            align-items: center;
-    width: 80%;
-    height: auto;
-    border-top: 1px solid #CCC5B9;
-    margin-top: .5%;
+.mainheader{
+  display: flex;
+  height: 14vh;
+  width: 100%;
+  background-color: #f2f2f2;
+  align-items: center;
+  /* position: fixed; */
+  z-index: 10;
+}
+
+.logoPRODUEMPAK{
+  display: flex;
+  margin-left: 7vw;
+  width: 18.5vw;
+  height: 65%;
+  background-image: url('../assets/LogoUSBLive.png');
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  cursor: pointer;
+}
+
+.headerOption{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 17vw;
+  height: 100%;
+  font-family: 'Roboto', sans-serif;
+  font-size: 1.2vw;
+  text-decoration: none;
+}
+
+.headerOption:hover{
+  color: #204281;
+  cursor: pointer
+}
+
+.hoptions{
+  display: flex;
+  margin-left: 8vw;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  width: 55%;
 }
