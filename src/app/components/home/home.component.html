@@ -1,5 +1,5 @@
 <app-root entrada=true></app-root>
-<body>
+<!-- <body>
     <section class="comentarios">
         <div class="post">
             <input type="text" (change)='myMessage()' [(ngModel)]='userChat.text' placeholder="Ingresa tu comentario...">
@@ -10,4 +10,34 @@
             <app-post [userChat]=(m) [actualComponent]=actualComponent [isAdmin]=isAdmin (eventoHijo)="onMensajeHijo($event)" (eventoHijo2)="onMensajeHijo2($event)"></app-post>
         </div>
     </section>
-</body>
+</body> -->
+
+<div id="mainProfileDiv">
+    <div id="cajaIzq">
+        <div class="cajaCont">
+            <div class="fotoProfile"></div>
+            <div class="contNombre">
+                <div class="userIcon"></div> nombreUser
+            </div>
+            <div class="contCorreo">
+                <div class="correoIcon"></div> correoUser
+            </div>
+            <div class="contTelefono">
+                <div class="telefonoIcon"></div> telefonoUser
+            </div>
+            <button class="btnEdit" (click)="onEditForm()">Editar información</button>
+        </div>
+    </div>
+        <div id="cajaDer">
+            <div class="panelProp">
+                <div *ngFor='let m of myMessages' >
+                    <app-post [userChat]=(m) [actualComponent]=actualComponent [isAdmin]=isAdmin (eventoHijo)="onMensajeHijo($event)" (eventoHijo2)="onMensajeHijo2($event)"></app-post>
+                </div>
+            </div>
+            <div id="cajaSendMessage">
+                <div class="masDocs">+</div>
+                <input type="text" class="chatBox">
+                <button class="enviarP">Enviar</button>
+            </div>
+        </div>
+</div>

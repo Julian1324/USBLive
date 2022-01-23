@@ -49,6 +49,8 @@ export class PostComponent implements OnInit{
   }
 
   like(actualComponent:any){
+    console.log(this.actualComponent);
+    
     if(this.actualComponent=='Propuestas Estudiantiles'){
       this.fireService.sendLike(actualComponent.userChat,'propuestas',this.activated.snapshot.params.user);
     }

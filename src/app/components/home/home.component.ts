@@ -39,9 +39,9 @@ export class HomeComponent implements OnInit {
       
     });
     
-    // let click:any= document.querySelector('.categoria');
-    // click.click();
-    // this.isadminn();
+    let click:any= document.querySelector('.headerOption');
+    click.click();
+    this.isadminn();
   }
 
   isadminn(){
@@ -143,6 +143,10 @@ export class HomeComponent implements OnInit {
     }
     // this.fireService.saveMessage(this.userChat.user, this.userChat.text, this.userChat.id, this.userChat.likes,this.actualComponent+'');
     this.userChat.text='';
+  }
+
+  onEditForm(){
+
   }
 
 }
