@@ -39,9 +39,9 @@ export class HomeComponent implements OnInit {
       
     });
     
-    let click:any= document.querySelector('.categoria');
-    click.click();
-    this.isadminn();
+    // let click:any= document.querySelector('.categoria');
+    // click.click();
+    // this.isadminn();
   }
 
   isadminn(){

@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit, Input } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { WebSocketService } from 'src/app/services/web-socket.service';
 import { FirestoreService } from 'src/app/services/firestore.service';
@@ -8,7 +8,7 @@ import { FirestoreService } from 'src/app/services/firestore.service';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent {
+export class AppComponent implements OnInit, AfterViewInit {
   @Input() entrada:string;
   mostrar=false;
   
@@ -32,8 +32,26 @@ export class AppComponent {
     this.entrada='';
   }
 
-  ngOnInit(): void {
+  ngOnInit() {
 
+  }
+
+  isadminn(){
+    this.fireService.getUser().then( (snapshot) =>{
+      if (snapshot.exists()){
+        snapshot.forEach( (data:any) => {
+          
+          if(data.val().nombre==this.activated.snapshot.params.user){
+            this.isAdmin=data.val().isAdmin;
+                    
+          }else{
+            // console.log('nonas');
+          }
+        }); 
+      }
+      
+      
+    } );
   }
 
   ngOnChanges(): void{
@@ -42,7 +60,15 @@ export class AppComponent {
     }else{
       this.mostrar=false;
     }
-    
+  }
+
+  ngAfterViewInit(): void{
+
+    if(this.mostrar){
+      let click:any= document.querySelector('.headerOption');
+      click.click();
+      this.isadminn();
+    }
   }
 
   toOtherSection(comp:any, cont:any ){
@@ -93,6 +119,16 @@ export class AppComponent {
     });
 
   }
+
+  // onMensajeHijo(mensaje:any) { 
+  //   this.myMessages=mensaje;
+  // }
+
+  // onMensajeHijo2(userChatHijo:any) { 
+  //   this.myMessages=userChatHijo;
+  //   //console.log(userChatHijo);
+    
+  // }
 
   toHome(){
     console.log('To home coñño');

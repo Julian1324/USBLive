@@ -1,5 +1,5 @@
 <div *ngIf=mostrar>
-    <div id="nav">
+    <header id="nav">
         <div class="mainheader">
             <div class="logoPRODUEMPAK" (click)="toHome()"></div>
             <div class="hoptions" #cont>
@@ -8,6 +8,6 @@
               <div class="headerOption" (click)="toOtherSection(proy, cont)" #proy> Proyectos </div>
             </div>
         </div>
-    </div>
+    </header>
 </div>
 <router-outlet></router-outlet>
