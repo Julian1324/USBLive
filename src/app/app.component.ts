@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'app-root',
@@ -6,5 +6,25 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
+  @Input() entrada:string;
+  mostrar=false;
+  
   title = 'USBLive';
+
+  constructor() {
+    this.entrada='';
+  }
+
+  ngOnChanges(): void{
+    if(this.entrada=='true'){
+      this.mostrar=true;
+    }else{
+      this.mostrar=false;
+    }
+    
+  }
+
+  ngOnInit(): void {
+
+  }
 }

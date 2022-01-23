@@ -1,0 +1,11 @@
+{
+  "targets": {
+    "usblive-9ca91": {
+      "hosting": {
+        "USBLive": [
+          "usblive-9ca91"
+        ]
+      }
+    }
+  }
+}

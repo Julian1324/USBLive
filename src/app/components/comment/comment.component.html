@@ -1,0 +1,9 @@
+<div class="commentContainer">
+    <!-- {{userComments.user}}: {{userComments.comment}} -->
+    <div class="fotoComment"></div>
+    <div class='commentCont'>
+        <div class="userName">{{userComments.user}}<div (click)='onDeleteComment(this)' class="deleteComment" *ngIf='isAdmin'>x</div></div>
+        <div class="commentText">{{userComments.comment}}</div>
+        
+    </div>
+</div>
