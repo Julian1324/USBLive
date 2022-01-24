@@ -36,24 +36,6 @@ export class AppComponent implements OnInit, AfterViewInit {
 
   }
 
-  isadminn(){
-    this.fireService.getUser().then( (snapshot) =>{
-      if (snapshot.exists()){
-        snapshot.forEach( (data:any) => {
-          
-          if(data.val().nombre==this.activated.snapshot.params.user){
-            this.isAdmin=data.val().isAdmin;
-                    
-          }else{
-            // console.log('nonas');
-          }
-        }); 
-      }
-      
-      
-    } );
-  }
-
   ngOnChanges(): void{
     if(this.entrada=='true'){
       this.mostrar=true;
@@ -67,7 +49,6 @@ export class AppComponent implements OnInit, AfterViewInit {
     if(this.mostrar){
       let click:any= document.querySelector('.headerOption');
       click.click();
-      this.isadminn();
     }
   }
 
@@ -83,18 +64,25 @@ export class AppComponent implements OnInit, AfterViewInit {
     comp.style.backgroundColor= 'white';
 
     if(comp.innerText=='Propuestas estudiantiles'){
-      this.refreshMessages('propuestas');
+      if(localStorage.getItem('actualComponent')!= undefined){
+        if(localStorage.getItem('actualComponent')!='Propuestas estudiantiles'){
+          this.refreshMessages('propuestas');
+        }
+      }
       this.actualComponent=comp.innerText;
+      localStorage.setItem('actualComponent',this.actualComponent);
     }
 
     if(comp.innerText=='Apertura de cursos'){
       this.refreshMessages('aperturas');
       this.actualComponent=comp.innerText;
+      localStorage.setItem('actualComponent',this.actualComponent);
     }
 
     if(comp.innerText=='Proyectos'){
       this.refreshMessages('proyectos');
       this.actualComponent=comp.innerText;
+      localStorage.setItem('actualComponent',this.actualComponent);
     }
   }
 
@@ -119,16 +107,6 @@ export class AppComponent implements OnInit, AfterViewInit {
     });
 
   }
-
-  // onMensajeHijo(mensaje:any) { 
-  //   this.myMessages=mensaje;
-  // }
-
-  // onMensajeHijo2(userChatHijo:any) { 
-  //   this.myMessages=userChatHijo;
-  //   //console.log(userChatHijo);
-    
-  // }
 
   toHome(){
     console.log('To home coñño');

@@ -36,8 +36,8 @@
             </div>
             <div id="cajaSendMessage">
                 <div class="masDocs">+</div>
-                <input type="text" class="chatBox">
-                <button class="enviarP">Enviar</button>
+                <input type="text" class="chatBox" (keyup.enter)='myMessage()' [(ngModel)]='userChat.text' placeholder="Ingresa tu proposición...">
+                <button class="enviarP" (click)='myMessage()'>Enviar</button>
             </div>
         </div>
 </div>

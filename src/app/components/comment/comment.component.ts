@@ -14,17 +14,12 @@ export class CommentComponent implements OnInit {
   @Input() isAdmin:any;
   myComments:any=[];
 
-  // @Output() eventoHijo = new EventEmitter<{}>();
-
   constructor(private router: Router, private activated: ActivatedRoute, private webService: WebSocketService, private fireService: FirestoreService) {
     this.userComments={};
   }
 
   ngOnInit(): void {
-    // this.webService.listen('deleteC-event').subscribe((data:any) =>{
-    //   this.userChat.userComments= data;
-      
-    // });
+    
   }
 
   onDeleteComment(component:any){
@@ -39,13 +34,9 @@ export class CommentComponent implements OnInit {
       
     }
 
-    
-    
     this.fireService.deleteC('propuestas',this.userChat);
     this.webService.emit('delete-comment', this.userChat);
     
-    // console.log(this.userChat.userComments[0]);
-
   }
 
 }

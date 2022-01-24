@@ -49,19 +49,22 @@ export class PostComponent implements OnInit{
   }
 
   like(actualComponent:any){
-    console.log(this.actualComponent);
+    console.log(actualComponent);
     
-    if(this.actualComponent=='Propuestas Estudiantiles'){
-      this.fireService.sendLike(actualComponent.userChat,'propuestas',this.activated.snapshot.params.user);
+    if(localStorage.getItem('actualComponent')!= undefined){
+      if(localStorage.getItem('actualComponent')=='Propuestas estudiantiles'){
+        this.fireService.sendLike(actualComponent.userChat,'propuestas',this.activated.snapshot.params.user);
+      }
+
+      if(localStorage.getItem('actualComponent')=='Apertura de cursos'){
+        this.fireService.sendLike(actualComponent.userChat,'aperturas',this.activated.snapshot.params.user);
+      }
+
+      if(localStorage.getItem('actualComponent')=='Proyectos'){
+        this.fireService.sendLike(actualComponent.userChat,'proyectos',this.activated.snapshot.params.user);
+      }
     }
 
-    if(this.actualComponent=='Apertura de cursos'){
-      this.fireService.sendLike(actualComponent.userChat,'aperturas',this.activated.snapshot.params.user);
-    }
-
-    if(this.actualComponent=='Proyectos'){
-      this.fireService.sendLike(actualComponent.userChat,'proyectos',this.activated.snapshot.params.user);
-    }
     this.webService.emit(this.eventName, this.userChat);
     
   }
@@ -94,21 +97,33 @@ export class PostComponent implements OnInit{
     // }
     
     if(mensaje.value!=''){
-      if(this.actualComponent=='Propuestas Estudiantiles'){
-        this.fireService.sendComment(actualComponent.userChat,'propuestas',this.activated.snapshot.params.user,mensaje.value);
-      }
-  
-      if(this.actualComponent=='Apertura de cursos'){
-        this.fireService.sendComment(actualComponent.userChat,'aperturas',this.activated.snapshot.params.user,mensaje.value);
-      }
-  
-      if(this.actualComponent=='Proyectos'){
-        this.fireService.sendComment(actualComponent.userChat,'proyectos',this.activated.snapshot.params.user,mensaje.value);
-      }
+      console.log(this.actualComponent);
+      
 
-      console.log(this.userChat.id);
-      
-      
+      // if(this.actualComponent=='Propuestas estudiantiles'){
+      //   this.fireService.sendComment(actualComponent.userChat,'propuestas',this.activated.snapshot.params.user,mensaje.value);
+      // }
+  
+      // if(this.actualComponent=='Apertura de cursos'){
+      //   this.fireService.sendComment(actualComponent.userChat,'aperturas',this.activated.snapshot.params.user,mensaje.value);
+      // }
+  
+      // if(this.actualComponent=='Proyectos'){
+      //   this.fireService.sendComment(actualComponent.userChat,'proyectos',this.activated.snapshot.params.user,mensaje.value);
+      // }
+      if(localStorage.getItem('actualComponent')!= undefined){
+        if(localStorage.getItem('actualComponent')=='Propuestas estudiantiles'){
+          this.fireService.sendComment(actualComponent.userChat,'propuestas',this.activated.snapshot.params.user,mensaje.value);
+        }
+  
+        if(localStorage.getItem('actualComponent')=='Apertura de cursos'){
+          this.fireService.sendComment(actualComponent.userChat,'aperturas',this.activated.snapshot.params.user,mensaje.value);
+        }
+  
+        if(localStorage.getItem('actualComponent')=='Proyectos'){
+          this.fireService.sendComment(actualComponent.userChat,'proyectos',this.activated.snapshot.params.user,mensaje.value);
+        }
+      }
 
       this.webService.emit(this.eventName2, {user: this.activated.snapshot.params.user, comment: mensaje.value, commentID: this.userChat.id});
       mensaje.value='';

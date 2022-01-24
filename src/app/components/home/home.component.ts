@@ -29,7 +29,6 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    
     this.webService.listen('text-event').subscribe((data) =>{
       this.myMessages=data;
     });
@@ -38,9 +37,20 @@ export class HomeComponent implements OnInit {
       this.myMessages=data;
       
     });
-    
-    let click:any= document.querySelector('.headerOption');
-    click.click();
+
+    if(localStorage.getItem('actualComponent')!= undefined){
+      if(localStorage.getItem('actualComponent')=='Propuestas estudiantiles'){
+        this.refreshMessages('propuestas');
+      }
+
+      if(localStorage.getItem('actualComponent')=='Apertura de cursos'){
+        this.refreshMessages('aperturas');
+      }
+
+      if(localStorage.getItem('actualComponent')=='Proyectos'){
+        this.refreshMessages('proyectos');
+      }
+    }
     this.isadminn();
   }
 
@@ -62,35 +72,6 @@ export class HomeComponent implements OnInit {
     } );
   }
 
-  toPropuestas(comp:any,container:any){
-    comp.style.backgroundColor='#404040';
-    container.childNodes.forEach((element:any) => {
-      
-      if(comp.innerText== element.innerText){
-
-      }else{
-        element.style.backgroundColor='rgba(0, 0, 0, 0)';
-      }
-
-    });
-
-    if(comp.innerText=='Propuestas Estudiantiles'){
-      this.refreshMessages('propuestas');
-      this.actualComponent=comp.innerText;
-    }
-
-    if(comp.innerText=='Apertura de cursos'){
-      this.refreshMessages('aperturas');
-      this.actualComponent=comp.innerText;
-    }
-
-    if(comp.innerText=='Proyectos'){
-      this.refreshMessages('proyectos');
-      this.actualComponent=comp.innerText;
-    }
-    
-  }
-
   refreshMessages(section:string){
     this.webService.emit('init-app', this.userChat);
 
@@ -99,9 +80,8 @@ export class HomeComponent implements OnInit {
       if (snapshot.exists()) {
         snapshot.forEach((data:any) => {
           this.userChat= data.val();
-          // this.myMessages= this.userChat;
-          
           this.webService.emit(this.eventName, this.userChat );
+          this.userChat.text='';
         });
         
       } else {
@@ -119,8 +99,6 @@ export class HomeComponent implements OnInit {
 
   onMensajeHijo2(userChatHijo:any) { 
     this.myMessages=userChatHijo;
-    //console.log(userChatHijo);
-    
   }
 
   myMessage(){
@@ -130,18 +108,20 @@ export class HomeComponent implements OnInit {
     
     this.webService.emit(this.eventName, this.userChat );
 
-    if(this.actualComponent=='Propuestas Estudiantiles'){
-      this.fireService.saveMessage(this.userChat.user, this.userChat.text, this.userChat.id, this.userChat.likes,'propuestas');
-    }
+    if(localStorage.getItem('actualComponent')!= undefined){
+      if(localStorage.getItem('actualComponent')=='Propuestas estudiantiles'){
+        this.fireService.saveMessage(this.userChat.user, this.userChat.text, this.userChat.id, this.userChat.likes,'propuestas');
+      }
 
-    if(this.actualComponent=='Apertura de cursos'){
-      this.fireService.saveMessage(this.userChat.user, this.userChat.text, this.userChat.id, this.userChat.likes,'aperturas');
-    }
+      if(localStorage.getItem('actualComponent')=='Apertura de cursos'){
+        this.fireService.saveMessage(this.userChat.user, this.userChat.text, this.userChat.id, this.userChat.likes,'aperturas');
+      }
 
-    if(this.actualComponent=='Proyectos'){
-      this.fireService.saveMessage(this.userChat.user, this.userChat.text, this.userChat.id, this.userChat.likes,'proyectos');
+      if(localStorage.getItem('actualComponent')=='Proyectos'){
+        this.fireService.saveMessage(this.userChat.user, this.userChat.text, this.userChat.id, this.userChat.likes,'proyectos');
+      }
     }
-    // this.fireService.saveMessage(this.userChat.user, this.userChat.text, this.userChat.id, this.userChat.likes,this.actualComponent+'');
+    
     this.userChat.text='';
   }
 
