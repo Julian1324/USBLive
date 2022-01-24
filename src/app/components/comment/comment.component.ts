@@ -34,7 +34,21 @@ export class CommentComponent implements OnInit {
       
     }
 
-    this.fireService.deleteC('propuestas',this.userChat);
+    if(localStorage.getItem('actualComponent')!= undefined){
+      if(localStorage.getItem('actualComponent')=='Propuestas estudiantiles'){
+        this.fireService.deleteC('propuestas',this.userChat);
+      }
+
+      if(localStorage.getItem('actualComponent')=='Apertura de cursos'){
+        this.fireService.deleteC('aperturas',this.userChat);
+      }
+
+      if(localStorage.getItem('actualComponent')=='Proyectos'){
+        this.fireService.deleteC('proyectos',this.userChat);
+      }
+    }
+
+    // this.fireService.deleteC('propuestas',this.userChat);
     this.webService.emit('delete-comment', this.userChat);
     
   }

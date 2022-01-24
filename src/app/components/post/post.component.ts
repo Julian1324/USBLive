@@ -71,6 +71,7 @@ export class PostComponent implements OnInit{
   }
 
   verLikesAdmin(){
+    // console.log(this.actualComponent);
 
     if(this.userChat.likes==0){
       alert('Todavía nadie le ha dado like');
@@ -116,16 +117,19 @@ export class PostComponent implements OnInit{
   }
 
   onEliminarPost(actualComponent:any){
-    if(this.actualComponent=='Propuestas Estudiantiles'){
-      this.fireService.deleteP('propuestas',actualComponent.userChat);
-    }
 
-    if(this.actualComponent=='Apertura de cursos'){
-      this.fireService.deleteP('aperturas',actualComponent.userChat);
-    }
+    if(localStorage.getItem('actualComponent')!= undefined){
+      if(localStorage.getItem('actualComponent')=='Propuestas estudiantiles'){
+        this.fireService.deleteP('propuestas',actualComponent.userChat);
+      }
 
-    if(this.actualComponent=='Proyectos'){
-      this.fireService.deleteP('proyectos',actualComponent.userChat);
+      if(localStorage.getItem('actualComponent')=='Apertura de cursos'){
+        this.fireService.deleteP('aperturas',actualComponent.userChat);
+      }
+
+      if(localStorage.getItem('actualComponent')=='Proyectos'){
+        this.fireService.deleteP('proyectos',actualComponent.userChat);
+      }
     }
 
     this.webService.emit('delete-post',actualComponent.userChat);

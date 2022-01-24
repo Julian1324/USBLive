@@ -61,8 +61,6 @@ export class HomeComponent implements OnInit {
           
           if(data.val().nombre==this.activated.snapshot.params.user){
             this.isAdmin=data.val().isAdmin;
-            console.log(this.isAdmin);
-            
           }else{
             // console.log('nonas');
           }

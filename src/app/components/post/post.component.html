@@ -2,7 +2,8 @@
     <div class="userBox">
         <div class="userPicture"></div>
         <div class="likeBox">
-            <div class="likeButton" (click)='like(this)'></div>
+            <div class="likeButton" *ngIf='isAdmin' (click)='verLikesAdmin()'></div>
+            <div class="likeButton" *ngIf='!isAdmin' (click)='like(this)'></div>
             <div class="likeCant">{{userChat.likes}}</div>
         </div>
     </div>
@@ -17,4 +18,5 @@
         <app-comment *ngFor='let m of userChat.userComments' [userComments]=m [isAdmin]=isAdmin [userChat]=this.userChat></app-comment>
     </div>
     <!-- <button class="borrar" *ngIf='isAdmin' (click)='verLikesAdmin()'></button> -->
+    <div class="eliminarPost" *ngIf='isAdmin' (click)='onEliminarPost(this)'></div>
 </div>
