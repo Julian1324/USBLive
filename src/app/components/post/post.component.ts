@@ -27,6 +27,7 @@ export class PostComponent implements OnInit{
 
   ngOnInit(): void {
 
+    // console.log(this.isAdmin);
     
     this.webService.listen('like-event').subscribe((data:any) =>{
       this.myMessages=data;
@@ -49,7 +50,7 @@ export class PostComponent implements OnInit{
   }
 
   like(actualComponent:any){
-    console.log(actualComponent);
+    console.log(this.isAdmin);
     
     if(localStorage.getItem('actualComponent')!= undefined){
       if(localStorage.getItem('actualComponent')=='Propuestas estudiantiles'){
@@ -88,29 +89,9 @@ export class PostComponent implements OnInit{
 
   makeAComment(actualComponent:any,mensaje:any){
 
-    // if(this.userChat.userComments!== undefined){
-    //   this.userChat.userComments.push({user: this.activated.snapshot.params.user, comment: mensaje.value});
-
-    // }else{
-    //   this.userChat.userComments=[{user: this.activated.snapshot.params.user, comment: mensaje.value}];
-      
-    // }
     
     if(mensaje.value!=''){
       console.log(this.actualComponent);
-      
-
-      // if(this.actualComponent=='Propuestas estudiantiles'){
-      //   this.fireService.sendComment(actualComponent.userChat,'propuestas',this.activated.snapshot.params.user,mensaje.value);
-      // }
-  
-      // if(this.actualComponent=='Apertura de cursos'){
-      //   this.fireService.sendComment(actualComponent.userChat,'aperturas',this.activated.snapshot.params.user,mensaje.value);
-      // }
-  
-      // if(this.actualComponent=='Proyectos'){
-      //   this.fireService.sendComment(actualComponent.userChat,'proyectos',this.activated.snapshot.params.user,mensaje.value);
-      // }
       if(localStorage.getItem('actualComponent')!= undefined){
         if(localStorage.getItem('actualComponent')=='Propuestas estudiantiles'){
           this.fireService.sendComment(actualComponent.userChat,'propuestas',this.activated.snapshot.params.user,mensaje.value);
@@ -148,8 +129,6 @@ export class PostComponent implements OnInit{
     }
 
     this.webService.emit('delete-post',actualComponent.userChat);
-    // console.log(this.userChat);
-    
   }
 
 }
