@@ -27,7 +27,10 @@ export class PostComponent implements OnInit{
 
   ngOnInit(): void {
 
-    // console.log(this.isAdmin);
+    // console.log(localStorage.getItem('actualComponent'));
+    this.actualComponent=localStorage.getItem('actualComponent');
+    // console.log(this.actualComponent);
+    
     
     this.webService.listen('like-event').subscribe((data:any) =>{
       this.myMessages=data;
@@ -133,6 +136,10 @@ export class PostComponent implements OnInit{
     }
 
     this.webService.emit('delete-post',actualComponent.userChat);
+  }
+
+  showName(){
+    alert(this.userChat.user);
   }
 
 }

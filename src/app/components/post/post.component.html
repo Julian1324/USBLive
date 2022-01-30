@@ -1,12 +1,19 @@
 <div class="commentCont">
     <div class="userBox">
-        <div class="userPicture"></div>
+        <div class="userPicture" *ngIf='!isAdmin'></div>
+        <div class="userPicture" *ngIf='isAdmin'(click)='showName()' style="cursor: pointer;" ></div>
         <div class="likeBox">
-            <div class="likeButton" *ngIf='isAdmin' (click)='verLikesAdmin()'></div>
-            <div class="likeButton" *ngIf='!isAdmin' (click)='like(this)'></div>
+            <!-- <div class="likeButton" *ngIf='isAdmin' (click)='verLikesAdmin()'></div> -->
+            <div class="likeButton" *ngIf='this.actualComponent== "Propuestas estudiantiles" && isAdmin==true' (click)='like(this)'></div>
+            <div class="likeButton" *ngIf='this.actualComponent== "Propuestas estudiantiles" && isAdmin==false' (click)='like(this)'></div>
+            <div class="differentButton" *ngIf='this.actualComponent== "Apertura de cursos" && isAdmin==true' (click)='like(this)'>Unirme</div>
+            <div class="differentButton" *ngIf='this.actualComponent== "Apertura de cursos" && isAdmin==false' (click)='like(this)'>Unirme</div>
+            <div class="differentButton" *ngIf='this.actualComponent== "Proyectos" && isAdmin==true' (click)='like(this)'>Me interesa</div>
+            <div class="differentButton" *ngIf='this.actualComponent== "Proyectos" && isAdmin==false' (click)='like(this)'>Me interesa</div>
             <div class="likeCant">{{userChat.likes}}</div>
         </div>
     </div>
+    <!-- userChat.text -->
     <div class="propBox">
         <div class="messageBox">{{userChat.text}}
         </div>

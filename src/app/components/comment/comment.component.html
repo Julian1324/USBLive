@@ -1,5 +1,6 @@
 <div class="userComment">
-    <div class="userPictureComment"></div>
+    <div class="userPictureComment" *ngIf='!isAdmin'></div>
+    <div class="userPictureComment" *ngIf='isAdmin' (click)='showName(userComments)' style="cursor: pointer;"></div>
     <div class="commentText">{{userComments.comment}}</div>
     <div class="eliminarPost" *ngIf='isAdmin' (click)='onDeleteComment(this)'></div>
 </div>
