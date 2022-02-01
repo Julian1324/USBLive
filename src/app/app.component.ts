@@ -66,7 +66,9 @@ export class AppComponent implements OnInit, AfterViewInit {
     if(comp.innerText=='Propuestas estudiantiles'){
       if(localStorage.getItem('actualComponent')!= undefined){
         if(localStorage.getItem('actualComponent')!='Propuestas estudiantiles'){
+          
           this.refreshMessages('propuestas');
+          
         }
       }
       this.actualComponent=comp.innerText;
