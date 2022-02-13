@@ -65,38 +65,44 @@ export class FirestoreService {
     return get(child(this.dbRef, `${section}/${id}/userComments`));
   }
 
-  sendLike(user: any,section:string,userLike:string){
-    const db = getDatabase();
+  sendLike(user: any,section:string,userLike:string):any {
 
-    this.getUserLikes(section, user.id).then( (data)=>{
-      // console.log(data.val());
-      
-      if(data.exists()){
-        this.arregloUserLikes= data.val();
-        this.arregloUserLikes.push({user:userLike});
-        // console.log(data.val());
-        set(ref(db, `${section}/` + user.id), {
-          id:user.id,
-          user: user.user,
-          text: user.text,
-          likes: user.likes + 1,
-          userLikes: this.arregloUserLikes,
-          userComments: this.arregloUserComments
-        });
-        
-      }else{
-        set(ref(db, `${section}/` + user.id), {
-          id:user.id,
-          user: user.user,
-          text: user.text,
-          likes: user.likes + 1,
-          userLikes: [{user: userLike}],
-          userComments: this.arregloUserComments
-        });
-        
-      }
+    try {
+      const db = getDatabase();
 
-    });
+      this.getUserLikes(section, user.id).then( (data)=>{
+        
+        if(data.exists()){
+          this.arregloUserLikes= data.val();
+          this.arregloUserLikes.push({user:userLike});
+          set(ref(db, `${section}/` + user.id), {
+            id:user.id,
+            user: user.user,
+            text: user.text,
+            likes: user.likes + 1,
+            userLikes: this.arregloUserLikes,
+            userComments: this.arregloUserComments
+          });
+          
+        }else{
+          set(ref(db, `${section}/` + user.id), {
+            id:user.id,
+            user: user.user,
+            text: user.text,
+            likes: user.likes + 1,
+            userLikes: [{user: userLike}],
+            userComments: this.arregloUserComments
+          });
+          
+        }
+
+      });
+      return true;
+    } catch (error) {
+      return false;
+    }
+
+    
 
   }
 

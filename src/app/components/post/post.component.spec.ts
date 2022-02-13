@@ -63,4 +63,15 @@ describe('PostComponent', () => {
     expect(fireService.deleteP('propuestas',userChat)).toBeTruthy();
     done();
   });
+
+  it('send like', (done: DoneFn) => {
+    var userChat={
+      id:6,
+      user:'Bitricio',
+      text:'',
+      likes:0
+    }
+    expect(fireService.sendLike(userChat,'propuestas','Roberto')).toBeTruthy();
+    done();
+  });
 });
