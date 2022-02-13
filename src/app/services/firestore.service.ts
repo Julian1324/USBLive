@@ -157,18 +157,26 @@ export class FirestoreService {
   }
 
   deleteC(section:string, user:any){
-    const db = getDatabase();
 
-    this.arregloUserComments= user.userComments;
+    try {
+      const db = getDatabase();
 
-    set(ref(db, `${section}/` + user.id), {
-      id:user.id,
-      user: user.user,
-      text: user.text,
-      likes: user.likes,
-      userLikes: this.arregloUserLikes,
-      userComments: this.arregloUserComments
-    });
+      this.arregloUserComments= user.userComments;
+
+      set(ref(db, `${section}/` + user.id), {
+        id:user.id,
+        user: user.user,
+        text: user.text,
+        likes: user.likes,
+        userLikes: this.arregloUserLikes,
+        userComments: this.arregloUserComments
+      });
+      return true;
+    } catch (error) {
+      return false;
+    }
+
+    
     
   }
 }
