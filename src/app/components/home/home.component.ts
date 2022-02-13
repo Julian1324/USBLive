@@ -103,7 +103,6 @@ export class HomeComponent implements OnInit {
   myMessage(){
     this.userChat.user= this.activated.snapshot.params.user;
     this.userChat.id= this.userChat.id+1;
-    console.log(this.userChat);
     
     this.webService.emit(this.eventName, this.userChat );
 

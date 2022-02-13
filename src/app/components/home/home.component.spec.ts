@@ -47,15 +47,4 @@ describe('HomeComponent', () => {
     done();
   });
 
-  // it('send comment', (done: DoneFn) => {
-  //   var userChat={
-  //     id:6,
-  //     user:'Bitricio',
-  //     text: '',
-  //     likes:0,
-  //     userLikes:[]
-  //   }
-  //   expect(fireService.sendComment(userChat,'propuestas','Fernando','Muy buena la new prop')).toBeTruthy();
-  //   done();
-  // });
 });

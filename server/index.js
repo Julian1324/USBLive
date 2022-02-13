@@ -30,7 +30,9 @@ io.on('connection', function (socket){
 
         if(myMessages[data.id-1].likes==5){
             envio.envioCorreo(myMessages[data.id-1]);
-            console.log('Ya se mandó el correo connno');
+            socket.emit('email-sent',true);
+            socket.broadcast.emit('email-sent',true);
+            console.log('Ya se mandó el correo');
         }
     });
 

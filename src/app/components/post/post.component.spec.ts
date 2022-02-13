@@ -42,9 +42,9 @@ describe('PostComponent', () => {
 
   it('send comment', (done: DoneFn) => {
     var userChat={
-      id:6,
+      id:3,
       user:'Bitricio',
-      text:'',
+      text:'New prop',
       likes:0,
       userLikes:[]
     }
@@ -54,9 +54,9 @@ describe('PostComponent', () => {
 
   it('delete post', (done: DoneFn) => {
     var userChat={
-      id:6,
+      id:3,
       user:'Bitricio',
-      text:'',
+      text:'New prop',
       likes:0,
       userLikes:[]
     }
@@ -66,9 +66,9 @@ describe('PostComponent', () => {
 
   it('send like', (done: DoneFn) => {
     var userChat={
-      id:6,
+      id:3,
       user:'Bitricio',
-      text:'',
+      text:'New prop',
       likes:0
     }
     expect(fireService.sendLike(userChat,'propuestas','Roberto')).toBeTruthy();

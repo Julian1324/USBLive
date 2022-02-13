@@ -24,12 +24,12 @@ export class LoginComponent implements OnInit {
               this.router.navigate([`/home/${user}`], { relativeTo: this.route });
               return true;
             }else{
-              alert('Datos incorrectos');
+              alert('Datos incorrectos1');
               return false;
             } 
                     
           }else{
-            alert('Datos incorrectos');
+            alert('Datos incorrectos2');
             return false;
           }
         }); 

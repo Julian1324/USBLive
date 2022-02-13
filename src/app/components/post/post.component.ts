@@ -27,10 +27,7 @@ export class PostComponent implements OnInit{
 
   ngOnInit(): void {
 
-    // console.log(localStorage.getItem('actualComponent'));
     this.actualComponent=localStorage.getItem('actualComponent');
-    // console.log(this.actualComponent);
-    
     
     this.webService.listen('like-event').subscribe((data:any) =>{
       this.myMessages=data;
@@ -53,7 +50,6 @@ export class PostComponent implements OnInit{
   }
 
   like(actualComponent:any){
-    console.log(this.isAdmin);
     
     if(localStorage.getItem('actualComponent')!= undefined){
       if(localStorage.getItem('actualComponent')=='Propuestas estudiantiles'){
