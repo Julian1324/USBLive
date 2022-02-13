@@ -39,16 +39,22 @@ export class FirestoreService {
     });
   }
 
-  saveMessage(nombreUser: string, mensajeUser:string, id:number, likess:number, section:string){
-    const db = getDatabase();
-    set(ref(db, `${section}/` + id), {
-      id:id,
-      user: nombreUser,
-      text: mensajeUser,
-      likes: likess,
-      userLikes: []
-    });
+  saveMessage(nombreUser: string, mensajeUser:string, id:number, likess:number, section:string):any{
 
+    try {
+      const db = getDatabase();
+      set(ref(db, `${section}/` + id), {
+        id:id,
+        user: nombreUser,
+        text: mensajeUser,
+        likes: likess,
+        userLikes: []
+      });
+      return true;
+    } catch (error) {
+      return false;
+    }
+    
   }
 
   getUserLikes(section:string,id:number): Promise<any>{
@@ -96,38 +102,40 @@ export class FirestoreService {
 
   sendComment(user: any,section:string,nameUserComment:string,userComment:string){
     const db = getDatabase();
-    
-    // this.arregloUserComments.push({user:nameUserComment,comment:userComment});
 
-    this.getUserComments(section, user.id).then( (data)=>{
-      // console.log(data.val());
+    try {
+      this.getUserComments(section, user.id).then( (data)=>{
       
-      if(data.exists()){
-        this.arregloUserComments= data.val();
-        this.arregloUserComments.push({commentID: this.arregloUserComments.length, user:nameUserComment, comment:userComment});
-        // console.log(data.val());
-        set(ref(db, `${section}/` + user.id), {
-          id:user.id,
-          user: user.user,
-          text: user.text,
-          likes: user.likes,
-          userLikes: this.arregloUserLikes,
-          userComments: this.arregloUserComments
-        });
-        
-      }else{
-        set(ref(db, `${section}/` + user.id), {
-          id:user.id,
-          user: user.user,
-          text: user.text,
-          likes: user.likes,
-          userLikes: this.arregloUserLikes,
-          userComments: [{commentID: this.arregloUserComments.length, user:nameUserComment,comment:userComment}]
-        });
-        
-      }
-
-    });
+        if(data.exists()){
+          this.arregloUserComments= data.val();
+          this.arregloUserComments.push({commentID: this.arregloUserComments.length, user:nameUserComment, comment:userComment});
+          set(ref(db, `${section}/` + user.id), {
+            id:user.id,
+            user: user.user,
+            text: user.text,
+            likes: user.likes,
+            userLikes: this.arregloUserLikes,
+            userComments: this.arregloUserComments
+          });
+          
+        }else{
+          set(ref(db, `${section}/` + user.id), {
+            id:user.id,
+            user: user.user,
+            text: user.text,
+            likes: user.likes,
+            userLikes: this.arregloUserLikes,
+            userComments: [{commentID: this.arregloUserComments.length, user:nameUserComment,comment:userComment}]
+          });
+          
+        }
+  
+      });
+      return true;
+    } catch (error) {
+      return false;
+    }
+    
     
   }
 
@@ -135,10 +143,16 @@ export class FirestoreService {
     return get(child(this.dbRef, `${section}/`));
   }
 
-  deleteP(section:string, user:any){
-    const db = getDatabase();
+  deleteP(section:string, user:any):any{
 
-    set(ref(db, `${section}/` + user.id), null);
+    try {
+      const db = getDatabase();
+
+      set(ref(db, `${section}/` + user.id), null);
+      return true;
+    } catch (error) {
+      return false;
+    }
     
   }
 

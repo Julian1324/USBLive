@@ -14,21 +14,23 @@ export class LoginComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  onLogin(user:any, userPassword:any){
+  onLogin(user:any, userPassword:any):any{
     
     this.fireService.getUser().then( (snapshot) =>{
       if (snapshot.exists()){
         snapshot.forEach( (data:any) => {
           if(data.val().nombre==user){
             if(data.val().contrasena== userPassword){
-             this.router.navigate([`/home/${user}`], { relativeTo: this.route });
-             
+              this.router.navigate([`/home/${user}`], { relativeTo: this.route });
+              return true;
             }else{
-              console.log('nonas');
-            }
+              alert('Datos incorrectos');
+              return false;
+            } 
                     
           }else{
-            console.log('nonas');
+            alert('Datos incorrectos');
+            return false;
           }
         }); 
       }

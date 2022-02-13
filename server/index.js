@@ -1,13 +1,11 @@
 'use strict';
 
 const app= require('express');
-const serverHttp= require('http').Server(app);
+const serverHttp= require('http').createServer(app);
 const envio= require('./correoController');
 const io = require('socket.io')(serverHttp,{
-    cors:{
-        origin: "http://localhost:3000",
-        credentials:true
-    }
+    origins: '*',
+    credentials: false
 });
 
 var myMessages=[];
@@ -21,7 +19,7 @@ io.on('connection', function (socket){
 
     socket.on('init-app', function(data){
         myMessages=[];
-        
+        console.log('Empezamos');
     });
 
     socket.on('send-like', function(data){
@@ -77,6 +75,8 @@ serverHttp.listen(3000, () =>{
 const express= require('express');
 
 const app2= express();
+
+app2.use(require('./routes'));
 
 app2.set('port', process.env.PORT || 4000);
 // app2.use(require('./routes'));

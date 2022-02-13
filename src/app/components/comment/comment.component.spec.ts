@@ -1,4 +1,10 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { FirebaseAppModule, provideFirebaseApp } from '@angular/fire/app';
+import { FirestoreModule, provideFirestore } from '@angular/fire/firestore';
+import { RouterModule } from '@angular/router';
+import { initializeApp } from 'firebase/app';
+import { getFirestore } from 'firebase/firestore';
+import { environment } from 'src/environments/environment';
 
 import { CommentComponent } from './comment.component';
 
@@ -8,6 +14,13 @@ describe('CommentComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
+      imports:[
+        RouterModule.forRoot([]),
+        provideFirebaseApp( () => initializeApp(environment.firebase)),
+        provideFirestore( () => getFirestore() ),
+        FirestoreModule,
+        FirebaseAppModule
+      ],
       declarations: [ CommentComponent ]
     })
     .compileComponents();
@@ -19,7 +32,7 @@ describe('CommentComponent', () => {
     fixture.detectChanges();
   });
 
-  // it('should create', () => {
-  //   expect(component).toBeTruthy();
-  // });
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
 });

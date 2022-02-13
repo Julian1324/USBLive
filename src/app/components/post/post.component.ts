@@ -23,7 +23,7 @@ export class PostComponent implements OnInit{
 
   constructor(private router: Router, private activated: ActivatedRoute, private webService: WebSocketService, private fireService: FirestoreService) {
     this.userChat={};
-   }
+  }
 
   ngOnInit(): void {
 
@@ -87,13 +87,10 @@ export class PostComponent implements OnInit{
       alert(nombres);
     }
     
-
-    
   }
 
   makeAComment(actualComponent:any,mensaje:any){
 
-    
     if(mensaje.value!=''){
       console.log(this.actualComponent);
       if(localStorage.getItem('actualComponent')!= undefined){

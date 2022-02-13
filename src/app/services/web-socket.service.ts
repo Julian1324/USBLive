@@ -8,6 +8,7 @@ import { Observable, Subscriber } from 'rxjs';
 export class WebSocketService {
 
   socket: any;
+  // server = io('https://apippk.produempak.com/');
   server = io('http://localhost:3000', {transports: ['websocket']});
 
   constructor() {

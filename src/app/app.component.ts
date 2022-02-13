@@ -33,7 +33,12 @@ export class AppComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit() {
-
+    this.webService.listen('connection').subscribe( (data)=>{
+      console.log('keke');
+      
+      console.log(data);
+      
+    } );
   }
 
   ngOnChanges(): void{
