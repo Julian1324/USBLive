@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router, ActivatedRoute, ParamMap } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { FirestoreService } from 'src/app/services/firestore.service';
 
 @Component({
@@ -12,6 +12,22 @@ export class LoginComponent implements OnInit {
   constructor(private fireService: FirestoreService, private router: Router, private route: ActivatedRoute) { }
 
   ngOnInit(): void {
+    // var animation= setInterval(() => {
+    //   var login:any= document.querySelector('.loginBackground');
+
+    //   login.animate([
+    //       {backgroundPosition: "bottom"}
+    //   ],{
+    //         duration: 3500
+    //   });
+
+
+    //   if(login.getAnimations()!=null){
+    //     login.getAnimations()[0].finished.then( () => login.style.backgroundPosition="top" );
+    //   }
+            
+    // }, 3500);
+        
   }
 
   onLogin(user:any, userPassword:any):any{
@@ -24,12 +40,12 @@ export class LoginComponent implements OnInit {
               this.router.navigate([`/home/${user}`], { relativeTo: this.route });
               return true;
             }else{
-              alert('Datos incorrectos1');
+              alert('Datos incorrectos');
               return false;
             } 
                     
           }else{
-            alert('Datos incorrectos2');
+            alert('Datos incorrectos');
             return false;
           }
         }); 

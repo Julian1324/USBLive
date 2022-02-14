@@ -1,5 +1,5 @@
 import { Component, OnInit, AfterViewInit, Input } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { WebSocketService } from 'src/app/services/web-socket.service';
 import { FirestoreService } from 'src/app/services/firestore.service';
 
@@ -28,7 +28,7 @@ export class AppComponent implements OnInit, AfterViewInit {
   actualComponent:any;
   isAdmin:boolean=false;
 
-  constructor(private activated: ActivatedRoute, private webService: WebSocketService, private fireService: FirestoreService) {
+  constructor(private activated: ActivatedRoute, private webService: WebSocketService, private fireService: FirestoreService, private router: Router, private route: ActivatedRoute) {
     this.entrada='';
   }
 
@@ -117,5 +117,9 @@ export class AppComponent implements OnInit, AfterViewInit {
 
   toHome(){
     console.log('To home coñño');
+  }
+
+  onLogOut(){
+    this.router.navigate([`/`], { relativeTo: this.route });
   }
 }

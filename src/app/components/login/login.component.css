@@ -2,7 +2,6 @@
   display: flex;
   justify-content: center;
   width: 100%;
-  height: 130vh;
   font-family: 'Roboto', sans-serif;
 }
 
@@ -18,20 +17,18 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 10vh;
-  width: 60%;
+  width: 100%;
 }
 
 .loginBackground{
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-top: 9vh;
-  width: 80%;
-  height: 70vh;
-  border-radius: 1.3vw;
+  width: 100%;
+  height: 100vh;
+  /* border-radius: 1.3vw; */
   background-image: url('../../../assets/universidad.jpg');
-  background-size: 180% 120%;
+  background-size: cover;
   background-repeat: no-repeat;
   background-position: top;
   font-size: 1vw;
@@ -41,8 +38,8 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 94%;
-  height: 92.5%;
+  width: 40vw;
+  height: 60vh;
   background-color: white;
   border-radius: 0.7vw;
 }
@@ -56,6 +53,7 @@
   background-color: #40404018;
   font-size: 2.2vw;
   border-radius: 0.5vw;
+  font-weight: bold;
 }
 
 #nombreUser{
@@ -90,12 +88,4 @@
   background-color: #F68B20;
   color: white;
   border-radius: 0.3vw;
-}
-
-.olvidoDeContrasena{
-  display: flex;
-  margin-top: 3vh;
-  color: #204281;
-  font-style: italic;
-  cursor: pointer;
 }

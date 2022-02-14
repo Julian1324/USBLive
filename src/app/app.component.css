@@ -13,7 +13,7 @@
   z-index: 10;
 }
 
-.logoPRODUEMPAK{
+.logoUSBLive{
   display: flex;
   margin-left: 7vw;
   width: 18.5vw;
@@ -47,4 +47,20 @@
   justify-content: center;
   height: 100%;
   width: 55%;
+}
+
+.logOut{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-left: 1vw;
+  width: 9vw;
+  height: 50%;
+  background-color: black;
+  border: 0;
+  border-radius: 0.6vw;
+  color: white;
+  cursor: pointer;
+  font-family: 'Roboto', sans-serif;
+  font-size: 1.2vw;
 }

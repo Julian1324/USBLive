@@ -4,14 +4,15 @@
 
     <div id="mainLoginContainer">
         <div class="loginCont">
-            <div class="logoPpk"></div>
+            
             <div class="loginBackground">
                 <div class="loginContainer">
-                    <div class="titleLogin">INGRESO</div>
-                    <input type="text" name="" id="nombreUser" placeholder="Usuario" #user>
+                    <div class="titleLogin">
+                        <div class="logoPpk"></div>
+                    </div>
+                    <input type="text" name="" id="nombreUser" placeholder="Correo" #user>
                     <input type="password" name="" id="contrasenaUser"  placeholder="Contraseña"  (keydown.enter)="onLogin(user.value,userPassword.value)" #userPassword>
                     <button class="ingresoUser" (click)="onLogin(user.value,userPassword.value)">Ingresar</button>
-                    <span class="olvidoDeContrasena" >¿Olvidaste tu contraseña? Recuperala aquí </span>
                 </div>
             </div>
         </div>

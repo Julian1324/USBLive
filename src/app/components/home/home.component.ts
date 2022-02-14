@@ -23,9 +23,10 @@ export class HomeComponent implements OnInit {
   mensajeHijo={};
   actualComponent:any;
   isAdmin:boolean=false;
+  onlineUser:String;
 
   constructor(private activated: ActivatedRoute, private webService: WebSocketService, private fireService: FirestoreService) {
-
+    this.onlineUser= activated.snapshot.params.user;
   }
 
   ngOnInit(): void {
