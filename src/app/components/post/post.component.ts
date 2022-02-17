@@ -80,7 +80,7 @@ export class PostComponent implements OnInit{
         nombres.push(element.user);
       });
 
-      alert(nombres);
+      alert('Personas que apoyan: '+nombres);
     }
     
   }
@@ -132,7 +132,7 @@ export class PostComponent implements OnInit{
   }
 
   showName(){
-    alert(this.userChat.user);
+    alert('Usuario: '+this.userChat.user);
   }
 
 }
