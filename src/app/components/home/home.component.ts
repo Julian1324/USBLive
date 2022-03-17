@@ -13,6 +13,7 @@ export class HomeComponent implements OnInit {
   userChat={
     id:0,
     user:'',
+    flyer:'',
     text: '',
     likes:0,
     userLikes:[],
@@ -24,9 +25,11 @@ export class HomeComponent implements OnInit {
   actualComponent:any;
   isAdmin:boolean=false;
   onlineUser:String;
+  reader:FileReader;
 
   constructor(private activated: ActivatedRoute, private webService: WebSocketService, private fireService: FirestoreService) {
     this.onlineUser= activated.snapshot.params.user;
+    this.reader= new FileReader();
   }
 
   ngOnInit(): void {
@@ -104,24 +107,52 @@ export class HomeComponent implements OnInit {
   myMessage(){
     this.userChat.user= this.activated.snapshot.params.user;
     this.userChat.id= this.userChat.id+1;
+    console.log(this.reader.result);
+    this.userChat.flyer= this.reader.result+'';
+    var preV:any= document.querySelector('.previsualizacionIMG');
+    preV.src='';
     
     this.webService.emit(this.eventName, this.userChat );
 
     if(localStorage.getItem('actualComponent')!= undefined){
       if(localStorage.getItem('actualComponent')=='Propuestas estudiantiles'){
-        this.fireService.saveMessage(this.userChat.user, this.userChat.text, this.userChat.id, this.userChat.likes,'propuestas');
+        this.fireService.saveMessage(this.userChat.user, this.userChat.text, this.userChat.flyer, this.userChat.id, this.userChat.likes,'propuestas');
       }
 
       if(localStorage.getItem('actualComponent')=='Apertura de cursos'){
-        this.fireService.saveMessage(this.userChat.user, this.userChat.text, this.userChat.id, this.userChat.likes,'aperturas');
+        this.fireService.saveMessage(this.userChat.user, this.userChat.text, this.userChat.flyer, this.userChat.id, this.userChat.likes,'aperturas');
       }
 
       if(localStorage.getItem('actualComponent')=='Proyectos'){
-        this.fireService.saveMessage(this.userChat.user, this.userChat.text, this.userChat.id, this.userChat.likes,'proyectos');
+        this.fireService.saveMessage(this.userChat.user, this.userChat.text, this.userChat.flyer, this.userChat.id, this.userChat.likes,'proyectos');
       }
     }
     
     this.userChat.text='';
+  }
+
+  masDocs(){
+    // alert("Agrega algo pues soplapollas")
+  }
+
+  photoManager(e:any){
+
+    var cajaPrev:any= document.querySelector('.cajaPrev');
+    cajaPrev.style.transition='all 2s ease';
+    cajaPrev.style.backgroundColor='rgba(0, 0, 0, 0.1)';
+    
+    // reader = new FileReader();
+    this.reader.readAsDataURL(e.target.files[0]);
+    // this.userChat.flyer=e.target.files[0];
+    // console.log(e.target.files[0]);
+    
+    this.reader.onload = function () {
+      var preV:any= document.querySelector('.previsualizacionIMG');
+      preV.style.transition='all 2s ease';
+      preV.src=this.result;
+      preV.style.width='8%';
+    };
+    
   }
 
   onEditForm(){

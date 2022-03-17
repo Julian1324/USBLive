@@ -9,7 +9,7 @@ export class WebSocketService {
 
   socket: any;
   // server = io('https://apippk.produempak.com/');
-  server = io('http://localhost:3000', {transports: ['websocket']});
+  server = io('https://thawing-dusk-95924.herokuapp.com/',{transports: ['websocket']});
 
   constructor() {
     this.socket = this.server;

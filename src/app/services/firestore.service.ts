@@ -39,13 +39,14 @@ export class FirestoreService {
     });
   }
 
-  saveMessage(nombreUser: string, mensajeUser:string, id:number, likess:number, section:string):any{
+  saveMessage(nombreUser: string, mensajeUser:string, flyerIMG:string, id:number, likess:number, section:string):any{
 
     try {
       const db = getDatabase();
       set(ref(db, `${section}/` + id), {
         id:id,
         user: nombreUser,
+        flyer:flyerIMG,
         text: mensajeUser,
         likes: likess,
         userLikes: []

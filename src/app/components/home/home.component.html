@@ -28,8 +28,16 @@
                     <app-post [userChat]=(m) [actualComponent]=actualComponent [isAdmin]=isAdmin (eventoHijo)="onMensajeHijo($event)" (eventoHijo2)="onMensajeHijo2($event)"></app-post>
                 </div>
             </div>
+            <div class="cajaPrev">
+                <img src="" class="previsualizacionIMG" alt="">
+            </div>
             <div id="cajaSendMessage">
-                <div class="masDocs">+</div>
+                <div class="masDocs" (click)='masDocs()'>
+                    +
+                    <input type="file" class="masDocs" style="position: absolute; opacity: 0;" (change)="photoManager($event)">
+                </div>
+
+                <!-- <input type="file" class="masDocs" (click)='masDocs()'> -->
                 <input type="text" class="chatBox" (keyup.enter)='myMessage()' [(ngModel)]='userChat.text' placeholder="Ingresa tu proposición...">
                 <button class="enviarP" (click)='myMessage()'>Enviar</button>
             </div>

@@ -15,8 +15,8 @@
     </div>
     <!-- userChat.text -->
     <div class="propBox">
-        <div class="messageBox">{{userChat.text}}
-        </div>
+        <div class="messageBox">{{userChat.text}}</div>
+        <img [src]="userChat.flyer" class="flyer" alt="">
         <div class="toComentBox">
             <input type="text" class="myTextCamp" placeholder="Escribe tu comentario aquí" (keyup.enter)='makeAComment(this,inputComment)' #inputComment>
             <button class="enviarC" (click)='makeAComment(this,inputComment)'>Comentar</button>

@@ -73,6 +73,12 @@
     display: flex;
 }
 
+.flyer{
+    display: flex;
+    margin-top: 5vh;
+    width: 60%;
+}
+
 .toComentBox{
     display: flex;
     justify-content: center;
