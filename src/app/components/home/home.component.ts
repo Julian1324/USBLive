@@ -26,6 +26,7 @@ export class HomeComponent implements OnInit {
   isAdmin:boolean=false;
   onlineUser:String;
   reader:FileReader;
+  botonSearch=0;
 
   constructor(private activated: ActivatedRoute, private webService: WebSocketService, private fireService: FirestoreService) {
     this.onlineUser= activated.snapshot.params.user;
@@ -135,16 +136,75 @@ export class HomeComponent implements OnInit {
     // alert("Agrega algo pues soplapollas")
   }
 
+  toSearch(num:any){
+    this.botonSearch= this.botonSearch + num;
+
+    var queryBar:any=document.querySelector('.queryBar');
+
+    if(this.botonSearch==1){
+        queryBar.style.transition='all 0.5s ease-out';
+        // this.document.querySelector('.hoptions').style.color = "white";
+        queryBar.style.marginLeft='0vw';
+        queryBar.style.width='31vw';
+        queryBar.style.border='2px solid #F68B20';
+        queryBar.select();
+    }else{
+        // document.querySelector('.hoptions').style.color = "black";
+        queryBar.style.marginLeft='0vw';
+        queryBar.style.width='0vw';
+        queryBar.style.border='0';
+        this.botonSearch=0;
+        var cajaProp:any=document.querySelectorAll('.commentCont');
+        for (let i = 0; i < cajaProp.length; i++) {
+          cajaProp[i].style.display='flex';
+          cajaProp[i].style.opacity='1';
+        }
+    }
+    
+  }
+
+  buscarProp(prop:any){
+    // console.log(document.querySelectorAll('.commentCont'));
+    prop= prop.trim();
+    if(prop!=''){
+      for (let i = 0; i < this.myMessages.length; i++) {
+        var cajaProp:any=document.querySelectorAll('.commentCont')[i];
+        cajaProp.style.transition='all 0.4s ease';
+        // console.log(cajaProp.style.display);
+        
+        if(!this.myMessages[i].text.match(prop)){
+          cajaProp.style.opacity='0';
+
+          if(cajaProp.getAnimations()[0]!=undefined){
+            cajaProp.getAnimations()[0].finished.then( (a:any)=>{
+              cajaProp= document.querySelectorAll('.commentCont')[i];
+              cajaProp.style.display='none';
+            } );
+          }
+          
+        }else{
+          cajaProp.style.opacity='1';
+          cajaProp.style.display='flex';
+        }
+      }
+    }else{
+      var cajaProp:any=document.querySelectorAll('.commentCont');
+      // cajaProp.style.opacity='1';
+      for (let i = 0; i < cajaProp.length; i++) {
+        cajaProp[i].style.display='flex';
+        cajaProp[i].style.opacity='1';
+      }
+    }
+    
+  }
+
   photoManager(e:any){
 
     var cajaPrev:any= document.querySelector('.cajaPrev');
     cajaPrev.style.transition='all 2s ease';
     cajaPrev.style.backgroundColor='rgba(0, 0, 0, 0.1)';
     
-    // reader = new FileReader();
     this.reader.readAsDataURL(e.target.files[0]);
-    // this.userChat.flyer=e.target.files[0];
-    // console.log(e.target.files[0]);
     
     this.reader.onload = function () {
       var preV:any= document.querySelector('.previsualizacionIMG');
@@ -154,9 +214,4 @@ export class HomeComponent implements OnInit {
     };
     
   }
-
-  onEditForm(){
-
-  }
-
 }

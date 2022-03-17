@@ -176,6 +176,37 @@
     cursor: pointer;
 }
 
+.contBusqueda{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 8vw;
+    width: 100%;
+}
+
+.queryBar{
+    display: flex;
+    width: 0;
+    height: 5vh;
+    padding-left: 0.7vw;
+    /* background-color: black; */
+    color: black;
+    font-family: 'Roboto', sans-serif;
+    font-size: 1.1vw;
+    border: 0;
+}
+
+.query{
+    display: flex;
+    margin-left: 3vw;
+    width: 2.1vw;
+    height: 5.5vh;
+    background-image: url('../../../assets/lupa.png');
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    cursor: pointer;
+}
+
 .panelProp{
     display: flex;
     flex-direction: column;

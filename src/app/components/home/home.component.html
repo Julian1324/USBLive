@@ -23,6 +23,10 @@
         </div>
     </div>
         <div id="cajaDer">
+            <div class="contBusqueda">
+                <input class="queryBar" placeholder="Buscar..." #inputToSearch (keyup.enter)='buscarProp(inputToSearch.value)' (keyup)='buscarProp(inputToSearch.value)' type="text">
+                <div class="query" (click)="toSearch(1)"></div>
+            </div>
             <div class="panelProp">
                 <div *ngFor='let m of myMessages' >
                     <app-post [userChat]=(m) [actualComponent]=actualComponent [isAdmin]=isAdmin (eventoHijo)="onMensajeHijo($event)" (eventoHijo2)="onMensajeHijo2($event)"></app-post>
