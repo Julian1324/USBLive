@@ -34,9 +34,9 @@ export class AppComponent implements OnInit, AfterViewInit {
 
   ngOnInit() {
     this.webService.listen('connection').subscribe( (data)=>{
-      console.log('keke');
+      // console.log('keke');
       
-      console.log(data);
+      // console.log(data);
       
     } );
   }
@@ -52,8 +52,21 @@ export class AppComponent implements OnInit, AfterViewInit {
   ngAfterViewInit(): void{
 
     if(this.mostrar){
-      let click:any= document.querySelector('.headerOption');
-      click.click();
+      let click:any= document.querySelectorAll('.headerOption');
+      for (let i = 0; i < click.length; i++) {
+        
+        if(localStorage.getItem('actualComponent') != null && localStorage.getItem('actualComponent') == click[i].innerText ){
+          
+          click[i].click();
+          // console.log(click[i].innerText);
+          
+        }
+        
+      }
+      
+      
+      // console.log(localStorage.getItem('actualComponent'));
+      
     }
   }
 
@@ -69,13 +82,7 @@ export class AppComponent implements OnInit, AfterViewInit {
     comp.style.backgroundColor= 'white';
 
     if(comp.innerText=='Propuestas estudiantiles'){
-      if(localStorage.getItem('actualComponent')!= undefined){
-        if(localStorage.getItem('actualComponent')!='Propuestas estudiantiles'){
-          
-          this.refreshMessages('propuestas');
-          
-        }
-      }
+      this.refreshMessages('propuestas');
       this.actualComponent=comp.innerText;
       localStorage.setItem('actualComponent',this.actualComponent);
     }
@@ -105,6 +112,8 @@ export class AppComponent implements OnInit, AfterViewInit {
           
           this.webService.emit(this.eventName, this.userChat );
         });
+        // console.log(this.myMessages);
+        
         
       } else {
         console.log("No data available");

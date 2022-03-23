@@ -36,6 +36,7 @@ export class HomeComponent implements OnInit {
   ngOnInit(): void {
     this.webService.listen('text-event').subscribe((data) =>{
       this.myMessages=data;
+      console.log(this.myMessages);
     });
 
     this.webService.listen('deleteP-event').subscribe((data) =>{
@@ -43,19 +44,19 @@ export class HomeComponent implements OnInit {
       
     });
 
-    if(localStorage.getItem('actualComponent')!= undefined){
-      if(localStorage.getItem('actualComponent')=='Propuestas estudiantiles'){
-        this.refreshMessages('propuestas');
-      }
+    // if(localStorage.getItem('actualComponent')!= undefined){
+    //   if(localStorage.getItem('actualComponent')=='Propuestas estudiantiles'){
+    //     this.refreshMessages('propuestas');
+    //   }
 
-      if(localStorage.getItem('actualComponent')=='Apertura de cursos'){
-        this.refreshMessages('aperturas');
-      }
+    //   if(localStorage.getItem('actualComponent')=='Apertura de cursos'){
+    //     this.refreshMessages('aperturas');
+    //   }
 
-      if(localStorage.getItem('actualComponent')=='Proyectos'){
-        this.refreshMessages('proyectos');
-      }
-    }
+    //   if(localStorage.getItem('actualComponent')=='Proyectos'){
+    //     this.refreshMessages('proyectos');
+    //   }
+    // }
     this.isadminn();
   }
 
@@ -76,26 +77,26 @@ export class HomeComponent implements OnInit {
     } );
   }
 
-  refreshMessages(section:string){
-    this.webService.emit('init-app', this.userChat);
+  // refreshMessages(section:string){
+  //   this.webService.emit('init-app', this.userChat);
 
-    this.fireService.getMessages(section).then( (snapshot) => {
+  //   this.fireService.getMessages(section).then( (snapshot) => {
       
-      if (snapshot.exists()) {
-        snapshot.forEach((data:any) => {
-          this.userChat= data.val();
-          this.webService.emit(this.eventName, this.userChat );
-          this.userChat.text='';
-        });
+  //     if (snapshot.exists()) {
+  //       snapshot.forEach((data:any) => {
+  //         this.userChat= data.val();
+  //         this.webService.emit(this.eventName, this.userChat );
+  //         this.userChat.text='';
+  //       });
         
-      } else {
-        console.log("No data available");
-      }
-    }).catch((error) => {
-      console.error(error);
-    });
+  //     } else {
+  //       console.log("No data available");
+  //     }
+  //   }).catch((error) => {
+  //     console.error(error);
+  //   });
 
-  }
+  // }
 
   onMensajeHijo(mensaje:any) { 
     this.myMessages=mensaje;
@@ -107,11 +108,16 @@ export class HomeComponent implements OnInit {
 
   myMessage(){
     this.userChat.user= this.activated.snapshot.params.user;
-    this.userChat.id= this.userChat.id+1;
-    console.log(this.reader.result);
-    this.userChat.flyer= this.reader.result+'';
-    var preV:any= document.querySelector('.previsualizacionIMG');
-    preV.src='';
+    this.userChat.id= this.myMessages.length+1;
+    console.log(this.userChat.id);
+    if(this.reader.result==null){
+      this.userChat.flyer='';
+    }else{
+      this.userChat.flyer= this.reader.result+'';
+      var preV:any= document.querySelector('.previsualizacionIMG');
+      preV.src='';
+
+    }
     
     this.webService.emit(this.eventName, this.userChat );
 
