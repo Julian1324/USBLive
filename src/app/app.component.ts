@@ -13,6 +13,7 @@ export class AppComponent implements OnInit, AfterViewInit {
   mostrar=false;
   
   title = 'USBLive';
+  actualSection='';
 
   userChat={
     id:0,
@@ -58,14 +59,11 @@ export class AppComponent implements OnInit, AfterViewInit {
         if(localStorage.getItem('actualComponent') != null && localStorage.getItem('actualComponent') == click[i].innerText ){
           
           click[i].click();
-          // console.log(click[i].innerText);
-          
         }
         
       }
       
       
-      // console.log(localStorage.getItem('actualComponent'));
       
     }
   }
@@ -101,19 +99,16 @@ export class AppComponent implements OnInit, AfterViewInit {
   }
 
   refreshMessages(section:string){
-    this.webService.emit('init-app', this.userChat);
+    // this.webService.emit('init-app', this.userChat);
+    this.webService.emit(`init-${section}`, this.userChat);
 
     this.fireService.getMessages(section).then( (snapshot) => {
       
       if (snapshot.exists()) {
         snapshot.forEach((data:any) => {
           this.userChat= data.val();
-          // this.myMessages= this.userChat;
-          
-          this.webService.emit(this.eventName, this.userChat );
+          this.webService.emit(`send-${section}`, this.userChat );
         });
-        // console.log(this.myMessages);
-        
         
       } else {
         console.log("No data available");

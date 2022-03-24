@@ -23,9 +23,6 @@ export class CommentComponent implements OnInit {
   }
 
   onDeleteComment(component:any){
-
-    console.log(component.userComments.commentID);
-    console.log(this.userChat.userComments);
     
     for (let i = 0; i < this.userChat.userComments.length; i++) {
       if(this.userChat.userComments[i].commentID==component.userComments.commentID){
@@ -36,20 +33,23 @@ export class CommentComponent implements OnInit {
 
     if(localStorage.getItem('actualComponent')!= undefined){
       if(localStorage.getItem('actualComponent')=='Propuestas estudiantiles'){
+        this.webService.emit('delete-comment-propuestas', this.userChat);
         this.fireService.deleteC('propuestas',this.userChat);
       }
 
       if(localStorage.getItem('actualComponent')=='Apertura de cursos'){
+        this.webService.emit('delete-comment-aperturas', this.userChat);
         this.fireService.deleteC('aperturas',this.userChat);
       }
 
       if(localStorage.getItem('actualComponent')=='Proyectos'){
+        this.webService.emit('delete-comment-proyectos', this.userChat);
         this.fireService.deleteC('proyectos',this.userChat);
       }
     }
 
-    // this.fireService.deleteC('propuestas',this.userChat);
-    this.webService.emit('delete-comment', this.userChat);
+    // this.webService.emit('delete-comment', this.userChat);
+    
     
   }
 

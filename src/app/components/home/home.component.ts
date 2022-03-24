@@ -20,6 +20,9 @@ export class HomeComponent implements OnInit {
     userComments:[]
   }
   myMessages:any=[];
+  propuestas:any=[];
+  proyectos:any=[];
+  aperturas:any=[];
   eventName='send-message';
   mensajeHijo={};
   actualComponent:any;
@@ -34,15 +37,44 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.webService.listen('text-event').subscribe((data) =>{
-      this.myMessages=data;
-      console.log(this.myMessages);
+    this.actualComponent=localStorage.getItem('actualComponent');
+    
+    // this.webService.listen('text-event').subscribe((data) =>{
+    //   this.myMessages=data;
+
+    // });
+
+    this.webService.listen('text-propuestas').subscribe((data) =>{
+      this.actualComponent=localStorage.getItem('actualComponent');
+      this.propuestas=data;
     });
 
-    this.webService.listen('deleteP-event').subscribe((data) =>{
-      this.myMessages=data;
-      
+    this.webService.listen('text-aperturas').subscribe((data) =>{
+      this.actualComponent=localStorage.getItem('actualComponent');
+      this.aperturas=data;
     });
+
+    this.webService.listen('text-proyectos').subscribe((data) =>{
+      this.actualComponent=localStorage.getItem('actualComponent');
+      this.proyectos=data;
+    });
+
+    this.webService.listen('deletePropuestas-event').subscribe((data) =>{
+      this.propuestas=data;
+    });
+
+    this.webService.listen('deleteProyectos-event').subscribe((data) =>{
+      this.proyectos=data;
+    });
+    
+    this.webService.listen('deleteAperturas-event').subscribe((data) =>{
+      this.aperturas=data;
+    });
+
+    // this.webService.listen('deleteP-event').subscribe((data) =>{
+    //   this.myMessages=data;
+      
+    // });
 
     // if(localStorage.getItem('actualComponent')!= undefined){
     //   if(localStorage.getItem('actualComponent')=='Propuestas estudiantiles'){
@@ -98,18 +130,52 @@ export class HomeComponent implements OnInit {
 
   // }
 
-  onMensajeHijo(mensaje:any) { 
-    this.myMessages=mensaje;
+  onMensajeProp(mensaje:any) {
+    // console.log(mensaje);
+    this.propuestas=mensaje;
   }
 
-  onMensajeHijo2(userChatHijo:any) { 
-    this.myMessages=userChatHijo;
+  onMensajeAp(mensaje:any) {
+    // console.log(mensaje);
+    this.aperturas=mensaje;
+  }
+
+  onMensajeProy(mensaje:any) {
+    this.proyectos=mensaje;
+  }
+
+  // onMensajeHijo2(userChatHijo:any) {
+  //   console.log(userChatHijo);
+  //   this.myMessages=userChatHijo;
+  // }
+
+  onCommentProp(userChatHijo:any) {
+    this.propuestas=userChatHijo;
+  }
+
+  onCommentProy(userChatHijo:any) {
+    this.proyectos=userChatHijo;
+  }
+
+  onDeleteCommentProp(userChatHijo:any) {
+    this.propuestas=userChatHijo;
+  }
+  
+  onDeleteCommentAp(userChatHijo:any) {
+    this.aperturas=userChatHijo;
+  }
+
+  onDeleteCommentProy(userChatHijo:any) {
+    this.proyectos=userChatHijo;
+  }
+
+  onCommentAp(userChatHijo:any) {
+    this.aperturas=userChatHijo;
   }
 
   myMessage(){
     this.userChat.user= this.activated.snapshot.params.user;
-    this.userChat.id= this.myMessages.length+1;
-    console.log(this.userChat.id);
+    // this.userChat.id= this.myMessages.length+1;
     if(this.reader.result==null){
       this.userChat.flyer='';
     }else{
@@ -119,18 +185,38 @@ export class HomeComponent implements OnInit {
 
     }
     
-    this.webService.emit(this.eventName, this.userChat );
+    // this.webService.emit(this.eventName, this.userChat );
+    this.actualComponent=localStorage.getItem('actualComponent');
 
     if(localStorage.getItem('actualComponent')!= undefined){
       if(localStorage.getItem('actualComponent')=='Propuestas estudiantiles'){
+        if(this.propuestas.length>0){
+          this.userChat.id= this.propuestas[this.propuestas.length-1].id+1;
+        }else{
+          this.userChat.id= 1;
+        }
+        
+        this.webService.emit('send-propuestas', this.userChat );
         this.fireService.saveMessage(this.userChat.user, this.userChat.text, this.userChat.flyer, this.userChat.id, this.userChat.likes,'propuestas');
       }
 
       if(localStorage.getItem('actualComponent')=='Apertura de cursos'){
+        if(this.aperturas.length>0){
+          this.userChat.id= this.aperturas[this.aperturas.length-1].id+1;
+        }else{
+          this.userChat.id= 1;
+        }
+        this.webService.emit('send-aperturas', this.userChat );
         this.fireService.saveMessage(this.userChat.user, this.userChat.text, this.userChat.flyer, this.userChat.id, this.userChat.likes,'aperturas');
       }
 
       if(localStorage.getItem('actualComponent')=='Proyectos'){
+        if(this.proyectos.length>0){
+          this.userChat.id= this.proyectos[this.proyectos.length-1].id+1;
+        }else{
+          this.userChat.id= 1;
+        }
+        this.webService.emit('send-proyectos', this.userChat );
         this.fireService.saveMessage(this.userChat.user, this.userChat.text, this.userChat.flyer, this.userChat.id, this.userChat.likes,'proyectos');
       }
     }
@@ -170,29 +256,100 @@ export class HomeComponent implements OnInit {
   }
 
   buscarProp(prop:any){
-    // console.log(document.querySelectorAll('.commentCont'));
+    this.actualComponent=localStorage.getItem('actualComponent');
     prop= prop.trim();
     if(prop!=''){
-      for (let i = 0; i < this.myMessages.length; i++) {
-        var cajaProp:any=document.querySelectorAll('.commentCont')[i];
-        cajaProp.style.transition='all 0.4s ease';
-        // console.log(cajaProp.style.display);
-        
-        if(!this.myMessages[i].text.match(prop)){
-          cajaProp.style.opacity='0';
 
-          if(cajaProp.getAnimations()[0]!=undefined){
-            cajaProp.getAnimations()[0].finished.then( (a:any)=>{
-              cajaProp= document.querySelectorAll('.commentCont')[i];
-              cajaProp.style.display='none';
-            } );
+      if(this.actualComponent!= undefined){
+        if(this.actualComponent=='Propuestas estudiantiles'){
+          for (let i = 0; i < this.propuestas.length; i++) {
+            var cajaProp:any=document.querySelectorAll('.commentCont')[i];
+            cajaProp.style.transition='all 0.4s ease';
+            // console.log(cajaProp.style.display);
+            
+            if(!this.propuestas[i].text.match(prop)){
+              cajaProp.style.opacity='0';
+    
+              if(cajaProp.getAnimations()[0]!=undefined){
+                cajaProp.getAnimations()[0].finished.then( (a:any)=>{
+                  cajaProp= document.querySelectorAll('.commentCont')[i];
+                  cajaProp.style.display='none';
+                } );
+              }
+              
+            }else{
+              cajaProp.style.opacity='1';
+              cajaProp.style.display='flex';
+            }
           }
-          
-        }else{
-          cajaProp.style.opacity='1';
-          cajaProp.style.display='flex';
+        }
+  
+        if(this.actualComponent=='Apertura de cursos'){
+          for (let i = 0; i < this.aperturas.length; i++) {
+            var cajaProp:any=document.querySelectorAll('.commentCont')[i];
+            cajaProp.style.transition='all 0.4s ease';
+            // console.log(cajaProp.style.display);
+            
+            if(!this.aperturas[i].text.match(prop)){
+              cajaProp.style.opacity='0';
+    
+              if(cajaProp.getAnimations()[0]!=undefined){
+                cajaProp.getAnimations()[0].finished.then( (a:any)=>{
+                  cajaProp= document.querySelectorAll('.commentCont')[i];
+                  cajaProp.style.display='none';
+                } );
+              }
+              
+            }else{
+              cajaProp.style.opacity='1';
+              cajaProp.style.display='flex';
+            }
+          }
+        }
+  
+        if(this.actualComponent=='Proyectos'){
+          for (let i = 0; i < this.proyectos.length; i++) {
+            var cajaProp:any=document.querySelectorAll('.commentCont')[i];
+            cajaProp.style.transition='all 0.4s ease';
+            // console.log(cajaProp.style.display);
+            
+            if(!this.proyectos[i].text.match(prop)){
+              cajaProp.style.opacity='0';
+    
+              if(cajaProp.getAnimations()[0]!=undefined){
+                cajaProp.getAnimations()[0].finished.then( (a:any)=>{
+                  cajaProp= document.querySelectorAll('.commentCont')[i];
+                  cajaProp.style.display='none';
+                } );
+              }
+              
+            }else{
+              cajaProp.style.opacity='1';
+              cajaProp.style.display='flex';
+            }
+          }
         }
       }
+      // for (let i = 0; i < this.myMessages.length; i++) {
+      //   var cajaProp:any=document.querySelectorAll('.commentCont')[i];
+      //   cajaProp.style.transition='all 0.4s ease';
+      //   // console.log(cajaProp.style.display);
+        
+      //   if(!this.myMessages[i].text.match(prop)){
+      //     cajaProp.style.opacity='0';
+
+      //     if(cajaProp.getAnimations()[0]!=undefined){
+      //       cajaProp.getAnimations()[0].finished.then( (a:any)=>{
+      //         cajaProp= document.querySelectorAll('.commentCont')[i];
+      //         cajaProp.style.display='none';
+      //       } );
+      //     }
+          
+      //   }else{
+      //     cajaProp.style.opacity='1';
+      //     cajaProp.style.display='flex';
+      //   }
+      // }
     }else{
       var cajaProp:any=document.querySelectorAll('.commentCont');
       // cajaProp.style.opacity='1';

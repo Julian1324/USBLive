@@ -16,10 +16,19 @@ export class PostComponent implements OnInit{
   eventName2='send-comment';
 
   myMessages:any=[];
-  // myComments:any=[];
+  propuestas:any=[];
+  proyectos:any=[];
+  aperturas:any=[];
 
-  @Output() eventoHijo = new EventEmitter<{}>();
-  @Output() eventoHijo2 = new EventEmitter<{}>();
+  @Output() eventoProp = new EventEmitter<{}>();
+  @Output() eventoAp = new EventEmitter<{}>();
+  @Output() eventoProy = new EventEmitter<{}>();
+  @Output() eventoCProp = new EventEmitter<{}>();
+  @Output() eventoCAp = new EventEmitter<{}>();
+  @Output() eventoCProy = new EventEmitter<{}>();
+  @Output() eventoDeleteCProp = new EventEmitter<{}>();
+  @Output() eventoDeleteCProy = new EventEmitter<{}>();
+  @Output() eventoDeleteCAp = new EventEmitter<{}>();
 
   constructor(private router: Router, private activated: ActivatedRoute, private webService: WebSocketService, private fireService: FirestoreService) {
     this.userChat={};
@@ -28,23 +37,67 @@ export class PostComponent implements OnInit{
   ngOnInit(): void {
 
     this.actualComponent=localStorage.getItem('actualComponent');
+
+    this.webService.listen('like-propuestas').subscribe((data:any) =>{
+      this.propuestas=data;
+      this.eventoProp.emit(this.propuestas);
+    });
+
+    this.webService.listen('like-aperturas').subscribe((data:any) =>{
+      this.aperturas=data;
+      this.eventoAp.emit(this.aperturas);
+    });
+
+    this.webService.listen('like-proyectos').subscribe((data:any) =>{
+      this.proyectos=data;
+      this.eventoProy.emit(this.proyectos);
+    });
     
-    this.webService.listen('like-event').subscribe((data:any) =>{
-      this.myMessages=data;
-      this.eventoHijo.emit(this.myMessages);
+    // this.webService.listen('like-event').subscribe((data:any) =>{
+    //   this.myMessages=data;
+    //   this.eventoProp.emit(this.myMessages);
       
+    // });
+
+    // this.webService.listen('comment-event').subscribe((data:any) =>{
+    //   this.userChat=data;
+    //   this.eventoHijo2.emit(this.userChat);
+    // });
+
+    this.webService.listen('comment-propuestas').subscribe((data:any) =>{
+      this.userChat=data;
+      this.eventoCProp.emit(this.userChat);
     });
 
-    this.webService.listen('comment-event').subscribe((data:any) =>{
+    this.webService.listen('comment-aperturas').subscribe((data:any) =>{
       this.userChat=data;
-      this.eventoHijo2.emit(this.userChat);
-      
+      this.eventoCAp.emit(this.userChat);
     });
 
-    this.webService.listen('deleteC-event').subscribe((data:any) =>{
+    this.webService.listen('comment-proyectos').subscribe((data:any) =>{
       this.userChat=data;
-      this.eventoHijo2.emit(this.userChat);
+      this.eventoCProy.emit(this.userChat);
+    });
+
+    // this.webService.listen('deleteC-event').subscribe((data:any) =>{
+    //   this.userChat=data;
+    //   this.eventoHijo2.emit(this.userChat);
       
+    // });
+
+    this.webService.listen('deleteC-propuestas').subscribe((data:any) =>{
+      this.userChat=data;
+      this.eventoDeleteCProp.emit(this.userChat);
+    });
+
+    this.webService.listen('deleteC-proyectos').subscribe((data:any) =>{
+      this.userChat=data;
+      this.eventoDeleteCProy.emit(this.userChat);
+    });
+
+    this.webService.listen('deleteC-aperturas').subscribe((data:any) =>{
+      this.userChat=data;
+      this.eventoDeleteCAp.emit(this.userChat);
     });
 
   }
@@ -53,19 +106,22 @@ export class PostComponent implements OnInit{
     
     if(localStorage.getItem('actualComponent')!= undefined){
       if(localStorage.getItem('actualComponent')=='Propuestas estudiantiles'){
+        this.webService.emit('send-like-propuestas', this.userChat);
         this.fireService.sendLike(actualComponent.userChat,'propuestas',this.activated.snapshot.params.user);
       }
 
       if(localStorage.getItem('actualComponent')=='Apertura de cursos'){
+        this.webService.emit('send-like-aperturas', this.userChat);
         this.fireService.sendLike(actualComponent.userChat,'aperturas',this.activated.snapshot.params.user);
       }
 
       if(localStorage.getItem('actualComponent')=='Proyectos'){
+        this.webService.emit('send-like-proyectos', this.userChat);
         this.fireService.sendLike(actualComponent.userChat,'proyectos',this.activated.snapshot.params.user);
       }
     }
 
-    this.webService.emit(this.eventName, this.userChat);
+    // this.webService.emit(this.eventName, this.userChat);
     
   }
 
@@ -88,22 +144,24 @@ export class PostComponent implements OnInit{
   makeAComment(actualComponent:any,mensaje:any){
 
     if(mensaje.value!=''){
-      console.log(this.actualComponent);
       if(localStorage.getItem('actualComponent')!= undefined){
         if(localStorage.getItem('actualComponent')=='Propuestas estudiantiles'){
+          this.webService.emit('comment-propuestas', {user: this.activated.snapshot.params.user, comment: mensaje.value, commentID: this.userChat.id});
           this.fireService.sendComment(actualComponent.userChat,'propuestas',this.activated.snapshot.params.user,mensaje.value);
         }
   
         if(localStorage.getItem('actualComponent')=='Apertura de cursos'){
+          this.webService.emit('comment-aperturas', {user: this.activated.snapshot.params.user, comment: mensaje.value, commentID: this.userChat.id});
           this.fireService.sendComment(actualComponent.userChat,'aperturas',this.activated.snapshot.params.user,mensaje.value);
         }
   
         if(localStorage.getItem('actualComponent')=='Proyectos'){
+          this.webService.emit('comment-proyectos', {user: this.activated.snapshot.params.user, comment: mensaje.value, commentID: this.userChat.id});
           this.fireService.sendComment(actualComponent.userChat,'proyectos',this.activated.snapshot.params.user,mensaje.value);
         }
       }
 
-      this.webService.emit(this.eventName2, {user: this.activated.snapshot.params.user, comment: mensaje.value, commentID: this.userChat.id});
+      // this.webService.emit(this.eventName2, {user: this.activated.snapshot.params.user, comment: mensaje.value, commentID: this.userChat.id});
       mensaje.value='';
     }else{
       console.log('no hay nada');
@@ -116,19 +174,22 @@ export class PostComponent implements OnInit{
 
     if(localStorage.getItem('actualComponent')!= undefined){
       if(localStorage.getItem('actualComponent')=='Propuestas estudiantiles'){
+        this.webService.emit('delete-propuestas',actualComponent.userChat);
         this.fireService.deleteP('propuestas',actualComponent.userChat);
       }
 
       if(localStorage.getItem('actualComponent')=='Apertura de cursos'){
+        this.webService.emit('delete-aperturas',actualComponent.userChat);
         this.fireService.deleteP('aperturas',actualComponent.userChat);
       }
 
       if(localStorage.getItem('actualComponent')=='Proyectos'){
+        this.webService.emit('delete-proyectos',actualComponent.userChat);
         this.fireService.deleteP('proyectos',actualComponent.userChat);
       }
     }
 
-    this.webService.emit('delete-post',actualComponent.userChat);
+    // this.webService.emit('delete-post',actualComponent.userChat);
   }
 
   showName(){

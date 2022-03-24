@@ -28,9 +28,24 @@
                 <div class="query" (click)="toSearch(1)"></div>
             </div>
             <div class="panelProp">
-                <div *ngFor='let m of myMessages' >
-                    <app-post [userChat]=(m) [actualComponent]=actualComponent [isAdmin]=isAdmin (eventoHijo)="onMensajeHijo($event)" (eventoHijo2)="onMensajeHijo2($event)"></app-post>
-                </div>
+                <!-- <ng-container *ngFor='let m of myMessages' >
+                    <app-post *ngIf="actualComponent=='Propuestas estudiantiles'" [userChat]=(m) [actualComponent]=actualComponent [isAdmin]=isAdmin (eventoHijo)="onMensajeHijo($event)" (eventoHijo2)="onMensajeHijo2($event)"></app-post>
+                    <app-post *ngIf="actualComponent=='Apertura de cursos'" [userChat]=(m) [actualComponent]=actualComponent [isAdmin]=isAdmin (eventoHijo)="onMensajeHijo($event)" (eventoHijo2)="onMensajeHijo2($event)"></app-post>
+                    <app-post *ngIf="actualComponent=='Proyectos'" [userChat]=(m) [actualComponent]=actualComponent [isAdmin]=isAdmin (eventoHijo)="onMensajeHijo($event)" (eventoHijo2)="onMensajeHijo2($event)"></app-post>
+                </ng-container> -->
+                
+                <ng-container *ngIf="actualComponent=='Propuestas estudiantiles'">
+                    <app-post *ngFor='let prop of propuestas' [userChat]=(prop) [actualComponent]=actualComponent [isAdmin]=isAdmin (eventoProp)="onMensajeProp($event)" (eventoCProp)="onCommentProp($event)" (eventoDeleteCProp)="onDeleteCommentProp($event)"></app-post>
+                </ng-container>
+
+                <ng-container *ngIf="actualComponent=='Apertura de cursos'">
+                    <app-post *ngFor='let ap of aperturas' [userChat]=(ap) [actualComponent]=actualComponent [isAdmin]=isAdmin (eventoAp)="onMensajeAp($event)" (eventoCAp)="onCommentAp($event)" (eventoDeleteCAp)="onDeleteCommentAp($event)" ></app-post>
+                </ng-container>
+
+                <ng-container *ngIf="actualComponent=='Proyectos'">
+                    <app-post *ngFor='let proy of proyectos' [userChat]=(proy) [actualComponent]=actualComponent [isAdmin]=isAdmin (eventoProy)="onMensajeProy($event)" (eventoCProy)="onCommentProy($event)" (eventoDeleteCProy)="onDeleteCommentProy($event)"></app-post>
+                </ng-container>
+                
             </div>
             <div class="cajaPrev">
                 <img src="" class="previsualizacionIMG" alt="">
