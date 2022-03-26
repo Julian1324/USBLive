@@ -45,7 +45,6 @@ export class LoginComponent implements OnInit {
             } 
                     
           }else{
-            alert('Datos incorrectos');
             return false;
           }
         }); 

@@ -54,13 +54,17 @@ export class AppComponent implements OnInit, AfterViewInit {
 
     if(this.mostrar){
       let click:any= document.querySelectorAll('.headerOption');
-      for (let i = 0; i < click.length; i++) {
-        
-        if(localStorage.getItem('actualComponent') != null && localStorage.getItem('actualComponent') == click[i].innerText ){
+
+      if(localStorage.getItem('actualComponent')==null){
+        click[0].click();
+      }else{
+        for (let i = 0; i < click.length; i++) {
           
-          click[i].click();
+          if(localStorage.getItem('actualComponent') != null && localStorage.getItem('actualComponent') == click[i].innerText ){
+            
+            click[i].click();
+          }
         }
-        
       }
       
       

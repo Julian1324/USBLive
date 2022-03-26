@@ -43,7 +43,7 @@ describe('HomeComponent', () => {
   });
 
   it('send post', (done: DoneFn) => {
-    expect(fireService.saveMessage('Bitricio','New prop',6,0,'propuestas')).toBeTruthy();
+    expect(fireService.saveMessage('Bitricio','New prop','',6,0,'propuestas')).toBeTruthy();
     done();
   });
 
