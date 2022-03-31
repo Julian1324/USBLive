@@ -40,6 +40,8 @@ export class PostComponent implements OnInit{
 
     this.webService.listen('like-propuestas').subscribe((data:any) =>{
       this.propuestas=data;
+      //  console.log(this.propuestas);
+      
       this.eventoProp.emit(this.propuestas);
     });
 
@@ -106,6 +108,8 @@ export class PostComponent implements OnInit{
     
     if(localStorage.getItem('actualComponent')!= undefined){
       if(localStorage.getItem('actualComponent')=='Propuestas estudiantiles'){
+        // console.log(actualComponent.userChat);
+        
         this.webService.emit('send-like-propuestas', this.userChat);
         this.fireService.sendLike(actualComponent.userChat,'propuestas',this.activated.snapshot.params.user);
       }

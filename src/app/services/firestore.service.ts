@@ -67,6 +67,8 @@ export class FirestoreService {
   }
 
   sendLike(user: any,section:string,userLike:string):any {
+    // console.log(user);
+    
 
     try {
       const db = getDatabase();
@@ -80,6 +82,7 @@ export class FirestoreService {
             id:user.id,
             user: user.user,
             text: user.text,
+            flyer:user.flyer,
             likes: user.likes + 1,
             userLikes: this.arregloUserLikes,
             userComments: this.arregloUserComments
@@ -90,6 +93,7 @@ export class FirestoreService {
             id:user.id,
             user: user.user,
             text: user.text,
+            flyer:user.flyer,
             likes: user.likes + 1,
             userLikes: [{user: userLike}],
             userComments: this.arregloUserComments

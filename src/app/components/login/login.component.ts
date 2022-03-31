@@ -41,6 +41,11 @@ export class LoginComponent implements OnInit {
               return true;
             }else{
               alert('Datos incorrectos');
+              // console.log(data.val().nombre);
+              // console.log(data.val().contrasena);
+              // console.log('-----');
+              // console.log(user);
+              // console.log(userPassword);
               return false;
             } 
                     
