@@ -225,7 +225,7 @@ export class HomeComponent implements OnInit {
   }
 
   masDocs(){
-    // alert("Agrega algo pues soplapollas")
+    // alert("Agrega algo pues")
   }
 
   toSearch(num:any){
