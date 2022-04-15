@@ -9,6 +9,8 @@ import { FirestoreService } from 'src/app/services/firestore.service';
 })
 export class LoginComponent implements OnInit {
 
+  ingreso:boolean=false;
+
   constructor(private fireService: FirestoreService, private router: Router, private route: ActivatedRoute) { }
 
   ngOnInit(): void {
@@ -35,17 +37,13 @@ export class LoginComponent implements OnInit {
     this.fireService.getUser().then( (snapshot) =>{
       if (snapshot.exists()){
         snapshot.forEach( (data:any) => {
-          if(data.val().nombre==user){
+          if(data.val().correo==user){
             if(data.val().contrasena== userPassword){
-              this.router.navigate([`/home/${user}`], { relativeTo: this.route });
+              this.ingreso=true;
+              localStorage.setItem('correo',`${data.val().correo}`);
+              this.router.navigate([`/home/${data.val().nombre}`], { relativeTo: this.route });
               return true;
             }else{
-              alert('Datos incorrectos');
-              // console.log(data.val().nombre);
-              // console.log(data.val().contrasena);
-              // console.log('-----');
-              // console.log(user);
-              // console.log(userPassword);
               return false;
             } 
                     
@@ -54,8 +52,10 @@ export class LoginComponent implements OnInit {
           }
         }); 
       }
+      if(!this.ingreso){
+        alert('Datos incorrectos');
+      }
     } );
-    
     
   }
 

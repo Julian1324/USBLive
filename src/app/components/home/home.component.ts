@@ -28,11 +28,13 @@ export class HomeComponent implements OnInit {
   actualComponent:any;
   isAdmin:boolean=false;
   onlineUser:String;
+  correoUserOnline:any;
   reader:FileReader;
   botonSearch=0;
 
   constructor(private activated: ActivatedRoute, private webService: WebSocketService, private fireService: FirestoreService) {
     this.onlineUser= activated.snapshot.params.user;
+    this.correoUserOnline= localStorage.getItem('correo');
     this.reader= new FileReader();
   }
 

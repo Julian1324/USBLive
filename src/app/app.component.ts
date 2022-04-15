@@ -114,7 +114,7 @@ export class AppComponent implements OnInit, AfterViewInit {
     this.fireService.getMessages(section).then( (snapshot) => {
       
       if (snapshot.exists()) {
-        console.log(snapshot.val());
+        // console.log(snapshot.val());
         snapshot.forEach((data:any) => {
           this.userChat= data.val();
           this.webService.emit(`send-${section}`, this.userChat );
