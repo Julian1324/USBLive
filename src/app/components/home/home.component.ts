@@ -267,9 +267,10 @@ export class HomeComponent implements OnInit {
           for (let i = 0; i < this.propuestas.length; i++) {
             var cajaProp:any=document.querySelectorAll('.commentCont')[i];
             cajaProp.style.transition='all 0.4s ease';
-            // console.log(cajaProp.style.display);
+            prop= prop.toLowerCase();
+            var propcoincidencia= this.propuestas[i].text.toLowerCase();
             
-            if(!this.propuestas[i].text.match(prop)){
+            if(!propcoincidencia.match(prop)){
               cajaProp.style.opacity='0';
     
               if(cajaProp.getAnimations()[0]!=undefined){
@@ -290,9 +291,11 @@ export class HomeComponent implements OnInit {
           for (let i = 0; i < this.aperturas.length; i++) {
             var cajaProp:any=document.querySelectorAll('.commentCont')[i];
             cajaProp.style.transition='all 0.4s ease';
-            // console.log(cajaProp.style.display);
             
-            if(!this.aperturas[i].text.match(prop)){
+            prop= prop.toLowerCase();
+            var propcoincidencia= this.aperturas[i].text.toLowerCase();
+            
+            if(!propcoincidencia.match(prop)){
               cajaProp.style.opacity='0';
     
               if(cajaProp.getAnimations()[0]!=undefined){
@@ -313,9 +316,10 @@ export class HomeComponent implements OnInit {
           for (let i = 0; i < this.proyectos.length; i++) {
             var cajaProp:any=document.querySelectorAll('.commentCont')[i];
             cajaProp.style.transition='all 0.4s ease';
-            // console.log(cajaProp.style.display);
+            prop= prop.toLowerCase();
+            var propcoincidencia= this.proyectos[i].text.toLowerCase();
             
-            if(!this.proyectos[i].text.match(prop)){
+            if(!propcoincidencia.match(prop)){
               cajaProp.style.opacity='0';
     
               if(cajaProp.getAnimations()[0]!=undefined){
