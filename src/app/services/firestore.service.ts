@@ -67,9 +67,9 @@ export class FirestoreService {
   }
 
   sendLike(user: any,section:string,userLike:string):any {
-    // console.log(user);
-    
-
+    if(user.flyer==undefined || user.flyer==null || user.flyer=='undefined' || user.flyer=='null'){
+      user.flyer='';
+    }
     try {
       const db = getDatabase();
 

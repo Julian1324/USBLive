@@ -154,8 +154,12 @@
     background-size: 60% 60%;
     background-repeat: no-repeat;
     background-position: center;
-    cursor: pointer;
+    /* cursor: pointer; */
 }
+
+/* .inputMasDocs{
+    cursor: pointer;
+} */
 
 .cajaPrev{
     display: flex;
