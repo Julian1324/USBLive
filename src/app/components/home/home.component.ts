@@ -32,6 +32,18 @@ export class HomeComponent implements OnInit {
   correoUserOnline:any;
   reader:FileReader;
   botonSearch=0;
+  malasPalabras=[
+    'puta','put4','perra','asesinato','bastardo','cabron','concha','picha','pene','p3ne','p3n3','chupa','chupar',
+    'chupame','chupamela','bobo','boba','pendejo','pendeja','culo','culiar','culeo','culear','poronga','mierda',
+    'mi3rda','m13rda','coño','sapa','sapo','baboso','babosa','hijueputa','ijueputa','ijoputa','hijoputa',
+    'idiota','imbecil','imbécil','infierno','lambeculo','lambeculos','lameculo','lambeculos','maldito','mamada',
+    'mamamela','mamar','marica','maricon','gay','pervertido','pervertida','teta','tetas','tet4','tet4s','seno','senos',
+    'puchecas','pezon','pezón','pezones','prostituta','prostituto','prostitut4','racista','ramera','semen',
+    'sexo','sex0','s3x0','ano','anal','an0','4n0','sexo oral','sex0 oral','s3x0 oral','verga','cretino',
+    'huevon','guevon','guevón','huevón','malparido','malparid0','malpar1do','balurdo','sonso','soplapicha',
+    'soplaverga','malnacido','negro de mierda','negro de','hijueputa negro','diablo','satanás','satanas',
+    'culona','tetona'
+  ];
 
   constructor(private activated: ActivatedRoute, private webService: WebSocketService, private fireService: FirestoreService) {
     this.onlineUser= activated.snapshot.params.user;
@@ -207,6 +219,23 @@ export class HomeComponent implements OnInit {
     
     // this.webService.emit(this.eventName, this.userChat );
     this.actualComponent=localStorage.getItem('actualComponent');
+
+    // const checkMalasPalabras = (palabra:any) => {
+    //   var rgx = new RegExp('/\[?(?:'+this.malasPalabras.join("|")+"|" + ")\]?/gi");
+    //   // var rgx = /\[?(?:mala|palabra2|palabra3|etc)\]?/gi
+    //   // console.log(rgx);
+      
+    //   return (rgx.test(palabra));
+    // }
+
+    for(var i = 0; i < this.malasPalabras.length;i++){
+      var regex = new RegExp("(^|\\s)"+this.malasPalabras[i]+"($|(?=\\s))","gi")
+      this.userChat.text = this.userChat.text.replace(regex, function($0, $1){return $1 + "*****"});
+    }
+
+    // if(checkMalasPalabras(this.userChat.text) == true){
+    //   window.alert("Mala palabra encontrada: " + this.userChat.text);
+    // }
 
     if(localStorage.getItem('actualComponent')!= undefined && this.userChat.text!=''){
       if(localStorage.getItem('actualComponent')=='Propuestas estudiantiles'){
