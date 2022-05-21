@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './components/home/home.component';
 import { LoginComponent } from './components/login/login.component';
+import { WatcherGuard } from './watcher.guard';
 
 const routes: Routes = [
   {
@@ -10,7 +11,8 @@ const routes: Routes = [
   },
   {
     path: 'home/:user',
-    component: HomeComponent
+    component: HomeComponent,
+    canActivate: [WatcherGuard]
   }
 ];
 

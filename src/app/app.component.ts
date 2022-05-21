@@ -114,17 +114,23 @@ export class AppComponent implements OnInit, AfterViewInit {
     this.fireService.getMessages(section).then( (snapshot) => {
       
       if (snapshot.exists()) {
-        // console.log(snapshot.val());
+        var contador=0;
         snapshot.forEach((data:any) => {
           this.userChat= data.val();
+          this.userChat.id= contador+1;
+          contador++;
+          // console.log(this.userChat);
+          
+          
           this.webService.emit(`send-${section}`, this.userChat );
           
-          if(snapshot.val()[snapshot.val().length-1].id== this.userChat.id){
+          // if(snapshot.val()[snapshot.val().length-1].id== this.userChat.id){
+          if(true){
             // alert('termino');
             if(section=='propuestas'){
               if(localStorage.getItem('nwUsr')==null){
                 setTimeout(() => {
-                  alert('¡Esta es la sección de Propuestas estudiantiles, donde podrás proponer aquellas ideas que ayuden al campus y a la comunidad bonaventuriana!');
+                  // alert('¡Esta es la sección de Propuestas estudiantiles, donde podrás proponer aquellas ideas que ayuden al campus y a la comunidad bonaventuriana!');
                 }, 600);
               }
             }
@@ -132,7 +138,7 @@ export class AppComponent implements OnInit, AfterViewInit {
             if(section=='proyectos'){
               if(localStorage.getItem('nwUsr')==null){
                 setTimeout(() => {
-                  alert('¡Esta es la sección de Proyectos, donde podrás proponer aquellos proyectos en los que necesitas apoyo!');
+                  // alert('¡Esta es la sección de Proyectos, donde podrás proponer aquellos proyectos en los que necesitas apoyo!');
                 }, 600);
               }
             }
@@ -140,7 +146,7 @@ export class AppComponent implements OnInit, AfterViewInit {
             if(section=='aperturas'){
               if(localStorage.getItem('nwUsr')==null){
                 setTimeout(() => {
-                  alert('¡Esta es la sección de Apertura de cursos, donde podrás fomentar la apertura de cursos en los que necesitas estudiantes para abrirlo!');
+                  // alert('¡Esta es la sección de Apertura de cursos, donde podrás fomentar la apertura de cursos en los que necesitas estudiantes para abrirlo!');
                 }, 600);
               }
             }
@@ -166,6 +172,7 @@ export class AppComponent implements OnInit, AfterViewInit {
   }
 
   onLogOut(){
+    localStorage.setItem('CanIn','');
     this.router.navigate([`/`], { relativeTo: this.route });
   }
 }

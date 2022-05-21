@@ -19,6 +19,7 @@
     "@angular/platform-browser": "~12.1.1",
     "@angular/platform-browser-dynamic": "~12.1.1",
     "@angular/router": "~12.1.1",
+    "deepai": "^1.0.21",
     "firebase": "^9.1.0",
     "rxfire": "^6.0.0",
     "rxjs": "~6.6.0",

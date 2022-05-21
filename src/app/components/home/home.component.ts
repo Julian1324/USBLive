@@ -1,7 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { WebSocketService } from 'src/app/services/web-socket.service';
 import { FirestoreService } from 'src/app/services/firestore.service';
+// import * as deepai  from "node_modules/deepai/dist";
+var deepai = require('deepai');
 
 @Component({
   selector: 'app-home',
@@ -9,7 +11,6 @@ import { FirestoreService } from 'src/app/services/firestore.service';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
-
   userChat={
     id:0,
     user:'',
@@ -36,10 +37,13 @@ export class HomeComponent implements OnInit {
     this.onlineUser= activated.snapshot.params.user;
     this.correoUserOnline= localStorage.getItem('correo');
     this.reader= new FileReader();
+    //d4392f4f-e1f2-4226-81bc-1690035447fe
+    deepai.setApiKey('d4392f4f-e1f2-4226-81bc-1690035447fe');
   }
 
   ngOnInit(): void {
     this.actualComponent=localStorage.getItem('actualComponent');
+    // this.mifuncion();
     
     // this.webService.listen('text-event').subscribe((data) =>{
     //   this.myMessages=data;
@@ -175,22 +179,36 @@ export class HomeComponent implements OnInit {
     this.aperturas=userChatHijo;
   }
 
-  myMessage(){
+  async myMessage(){
     this.userChat.user= this.activated.snapshot.params.user;
+    this.userChat.text= this.userChat.text.trim();
     // this.userChat.id= this.myMessages.length+1;
     if(this.reader.result==null){
       this.userChat.flyer='';
     }else{
-      this.userChat.flyer= this.reader.result+'';
-      var preV:any= document.querySelector('.previsualizacionIMG');
-      preV.src='';
+      var resp = await deepai.callStandardApi("nsfw-detector", {
+        image: `${this.reader.result}`,
+      });
+
+      console.log(resp.output.nsfw_score);
+      
+
+      if(resp.output.nsfw_score>0.4){
+        var preV:any= document.querySelector('.previsualizacionIMG');
+        preV.src='';
+        alert('Esta imagen no se puede publicar porque contiene desnudos. Tu comentario se publicará sin la imagen.');
+      }else{
+        this.userChat.flyer= this.reader.result+'';
+        var preV:any= document.querySelector('.previsualizacionIMG');
+        preV.src='';
+      }
 
     }
     
     // this.webService.emit(this.eventName, this.userChat );
     this.actualComponent=localStorage.getItem('actualComponent');
 
-    if(localStorage.getItem('actualComponent')!= undefined){
+    if(localStorage.getItem('actualComponent')!= undefined && this.userChat.text!=''){
       if(localStorage.getItem('actualComponent')=='Propuestas estudiantiles'){
         if(this.propuestas.length>0){
           this.userChat.id= this.propuestas[this.propuestas.length-1].id+1;
@@ -367,20 +385,19 @@ export class HomeComponent implements OnInit {
     
   }
 
-  photoManager(e:any){
-
+  async photoManager(e:any){
     var cajaPrev:any= document.querySelector('.cajaPrev');
     cajaPrev.style.transition='all 2s ease';
     cajaPrev.style.backgroundColor='rgba(0, 0, 0, 0.1)';
     
     this.reader.readAsDataURL(e.target.files[0]);
-    
-    this.reader.onload = function () {
+    this.reader.onload = async function() {
+      
       var preV:any= document.querySelector('.previsualizacionIMG');
       preV.style.transition='all 2s ease';
       preV.src=this.result;
       preV.style.width='8%';
     };
-    
+
   }
 }

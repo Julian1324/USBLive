@@ -17,6 +17,7 @@ import { FirestoreService } from './services/firestore.service';
 import { environment } from 'src/environments/environment';
 import { WebSocketService } from './services/web-socket.service';
 import { RouterModule } from '@angular/router';
+import { WatcherGuard } from './watcher.guard';
 
 @NgModule({
   declarations: [
@@ -47,7 +48,7 @@ import { RouterModule } from '@angular/router';
     // })),
     // provideFirestore(() => getFirestore())
   ],
-  providers: [FirestoreService],
+  providers: [FirestoreService,WatcherGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

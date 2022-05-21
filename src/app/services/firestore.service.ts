@@ -49,7 +49,8 @@ export class FirestoreService {
         flyer:flyerIMG,
         text: mensajeUser,
         likes: likess,
-        userLikes: []
+        userLikes: [],
+        userComments: []
       });
       return true;
     } catch (error) {
@@ -114,6 +115,10 @@ export class FirestoreService {
   sendComment(user: any,section:string,nameUserComment:string,userComment:string){
     const db = getDatabase();
 
+    if(user.flyer==undefined || user.flyer==null || user.flyer=='undefined' || user.flyer=='null'){
+      user.flyer='';
+    }
+
     try {
       this.getUserComments(section, user.id).then( (data)=>{
       
@@ -124,6 +129,7 @@ export class FirestoreService {
             id:user.id,
             user: user.user,
             text: user.text,
+            flyer: user.flyer,
             likes: user.likes,
             userLikes: this.arregloUserLikes,
             userComments: this.arregloUserComments
@@ -134,6 +140,7 @@ export class FirestoreService {
             id:user.id,
             user: user.user,
             text: user.text,
+            flyer: user.flyer,
             likes: user.likes,
             userLikes: this.arregloUserLikes,
             userComments: [{commentID: this.arregloUserComments.length, user:nameUserComment,comment:userComment}]
