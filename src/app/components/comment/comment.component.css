@@ -14,9 +14,11 @@
 
 .commentText{
     display: flex;
+    align-items: center;
+    height: 3.5vh;
     margin-top: 1.5vh;
     padding: 1vh 1vw 2vh 1vw;
-    background-color: rgba(255, 255, 255, 0.384);
+    background-color: rgba(0, 0, 0, 0.048);
     border-radius: 0.5vw;
 }
 
@@ -25,13 +27,23 @@
     margin-top: 1.7vh;
     width: 1.8vw;
     height: 3.8vh;
-    border-radius: 50%;
-    background-color: cyan;
     border: 0;
     background-image: url('../../../assets/eliminar.png');
     background-position: center;
-    background-size: 55% 55%;
+    background-size: 75% 75%;
     background-repeat: no-repeat;
-    filter: invert(100%);
+    cursor: pointer;
+}
+
+.editarPost{
+    margin-left: 1vh;
+    margin-top: 1.7vh;
+    width: 1.8vw;
+    height: 3.8vh;
+    border: 0;
+    background-image: url('../../../assets/editar.png');
+    background-position: center;
+    background-size: 75% 75%;
+    background-repeat: no-repeat;
     cursor: pointer;
 }

@@ -42,7 +42,7 @@ export class HomeComponent implements OnInit {
     'sexo','sex0','s3x0','ano','anal','an0','4n0','sexo oral','sex0 oral','s3x0 oral','verga','cretino',
     'huevon','guevon','guevón','huevón','malparido','malparid0','malpar1do','balurdo','sonso','soplapicha',
     'soplaverga','malnacido','negro de mierda','negro de','hijueputa negro','diablo','satanás','satanas',
-    'culona','tetona'
+    'culona','tetona','sarnosa','sarnoso'
   ];
 
   constructor(private activated: ActivatedRoute, private webService: WebSocketService, private fireService: FirestoreService) {
@@ -230,7 +230,7 @@ export class HomeComponent implements OnInit {
 
     for(var i = 0; i < this.malasPalabras.length;i++){
       var regex = new RegExp("(^|\\s)"+this.malasPalabras[i]+"($|(?=\\s))","gi")
-      this.userChat.text = this.userChat.text.replace(regex, function($0, $1){return $1 + "*****"});
+      this.userChat.text = this.userChat.text.replace(regex, function($0:any, $1:any){return $1 + "*****"});
     }
 
     // if(checkMalasPalabras(this.userChat.text) == true){
@@ -285,8 +285,8 @@ export class HomeComponent implements OnInit {
     if(this.botonSearch==1){
         queryBar.style.transition='all 0.5s ease-out';
         // this.document.querySelector('.hoptions').style.color = "white";
-        queryBar.style.marginLeft='0vw';
-        queryBar.style.width='31vw';
+        queryBar.style.marginLeft='-30vw';
+        queryBar.style.width='30vw';
         queryBar.style.border='2px solid #F68B20';
         queryBar.select();
     }else{

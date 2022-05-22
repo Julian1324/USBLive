@@ -59,6 +59,37 @@ export class FirestoreService {
     
   }
 
+  updatePost(user:any,section:any){
+    if(user.flyer==undefined || user.flyer==null || user.flyer=='undefined' || user.flyer=='null'){
+      user.flyer='';
+    }
+
+    if(user.userLikes==undefined){
+      user.userLikes=0;
+    }
+
+    if(user.userComments==undefined){
+      user.userComments=[];
+    }
+    
+    try {
+      const db = getDatabase();
+      set(ref(db, `${section}/` + user.id), {
+        id:user.id,
+        user: user.user,
+        flyer:user.flyer,
+        text: user.text,
+        likes: user.likes,
+        userLikes: user.userLikes,
+        userComments: user.userComments
+      });
+    } catch (error) {
+      console.log(error);
+      
+    }
+
+  }
+
   getUserLikes(section:string,id:number): Promise<any>{
     return get(child(this.dbRef, `${section}/${id}/userLikes`));
   }

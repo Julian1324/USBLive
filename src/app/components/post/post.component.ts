@@ -2,6 +2,7 @@ import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FirestoreService } from 'src/app/services/firestore.service';
 import { WebSocketService } from 'src/app/services/web-socket.service';
+const Swal = require('sweetalert2');
 
 @Component({
   selector: 'app-post',
@@ -19,6 +20,18 @@ export class PostComponent implements OnInit{
   propuestas:any=[];
   proyectos:any=[];
   aperturas:any=[];
+  malasPalabras=[
+    'puta','put4','perra','asesinato','bastardo','cabron','concha','picha','pene','p3ne','p3n3','chupa','chupar',
+    'chupame','chupamela','bobo','boba','pendejo','pendeja','culo','culiar','culeo','culear','poronga','mierda',
+    'mi3rda','m13rda','coño','sapa','sapo','baboso','babosa','hijueputa','ijueputa','ijoputa','hijoputa',
+    'idiota','imbecil','imbécil','infierno','lambeculo','lambeculos','lameculo','lambeculos','maldito','mamada',
+    'mamamela','mamar','marica','maricon','gay','pervertido','pervertida','teta','tetas','tet4','tet4s','seno','senos',
+    'puchecas','pezon','pezón','pezones','prostituta','prostituto','prostitut4','racista','ramera','semen',
+    'sexo','sex0','s3x0','ano','anal','an0','4n0','sexo oral','sex0 oral','s3x0 oral','verga','cretino',
+    'huevon','guevon','guevón','huevón','malparido','malparid0','malpar1do','balurdo','sonso','soplapicha',
+    'soplaverga','malnacido','negro de mierda','negro de','hijueputa negro','diablo','satanás','satanas',
+    'culona','tetona','sarnosa','sarnoso'
+  ];
 
   @Output() eventoProp = new EventEmitter<{}>();
   @Output() eventoAp = new EventEmitter<{}>();
@@ -30,7 +43,7 @@ export class PostComponent implements OnInit{
   @Output() eventoDeleteCProy = new EventEmitter<{}>();
   @Output() eventoDeleteCAp = new EventEmitter<{}>();
 
-  constructor(private router: Router, private activated: ActivatedRoute, private webService: WebSocketService, private fireService: FirestoreService) {
+  constructor(private router: Router, public activated: ActivatedRoute, private webService: WebSocketService, private fireService: FirestoreService) {
     this.userChat={};
   }
 
@@ -38,10 +51,27 @@ export class PostComponent implements OnInit{
 
     this.actualComponent=localStorage.getItem('actualComponent');
 
+    this.webService.listen('updated-propuestas').subscribe((data:any) =>{
+      this.propuestas=data;
+      this.eventoProp.emit(this.propuestas);
+    });
+
+    this.webService.listen('updated-proyectos').subscribe((data:any) =>{
+      this.proyectos=data;
+      this.eventoProp.emit(this.proyectos);
+    });
+
+    this.webService.listen('updated-aperturas').subscribe((data:any) =>{
+      this.aperturas=data;
+      this.eventoProp.emit(this.aperturas);
+    });
+
+    this.webService.listen('email-sent').subscribe((data:any) =>{
+      Swal.fire('La propuesta se ha enviado con éxito');
+    });
+
     this.webService.listen('like-propuestas').subscribe((data:any) =>{
       this.propuestas=data;
-      //  console.log(this.propuestas);
-      
       this.eventoProp.emit(this.propuestas);
     });
 
@@ -54,17 +84,6 @@ export class PostComponent implements OnInit{
       this.proyectos=data;
       this.eventoProy.emit(this.proyectos);
     });
-    
-    // this.webService.listen('like-event').subscribe((data:any) =>{
-    //   this.myMessages=data;
-    //   this.eventoProp.emit(this.myMessages);
-      
-    // });
-
-    // this.webService.listen('comment-event').subscribe((data:any) =>{
-    //   this.userChat=data;
-    //   this.eventoHijo2.emit(this.userChat);
-    // });
 
     this.webService.listen('comment-propuestas').subscribe((data:any) =>{
       this.userChat=data;
@@ -81,11 +100,20 @@ export class PostComponent implements OnInit{
       this.eventoCProy.emit(this.userChat);
     });
 
-    // this.webService.listen('deleteC-event').subscribe((data:any) =>{
-    //   this.userChat=data;
-    //   this.eventoHijo2.emit(this.userChat);
-      
-    // });
+    this.webService.listen('updated-comment-propuestas').subscribe((data:any) =>{
+      this.propuestas=data;
+      this.eventoProp.emit(this.propuestas);
+    });
+
+    this.webService.listen('updated-comment-aperturas').subscribe((data:any) =>{
+      this.aperturas=data;
+      this.eventoAp.emit(this.aperturas);
+    });
+
+    this.webService.listen('updated-comment-proyectos').subscribe((data:any) =>{
+      this.proyectos=data;
+      this.eventoProy.emit(this.proyectos);
+    });
 
     this.webService.listen('deleteC-propuestas').subscribe((data:any) =>{
       this.userChat=data;
@@ -100,6 +128,37 @@ export class PostComponent implements OnInit{
     this.webService.listen('deleteC-aperturas').subscribe((data:any) =>{
       this.userChat=data;
       this.eventoDeleteCAp.emit(this.userChat);
+    });
+
+  }
+
+  onEnviarCorreo(actualComponent:any){
+
+    Swal.fire({
+      title: 'Enviar publicación por correo?',
+      text: "",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Enviar'
+    }).then((result:any) => {
+      if (result.isConfirmed) {
+        if(localStorage.getItem('actualComponent')!= undefined){
+          if(localStorage.getItem('actualComponent')=='Propuestas estudiantiles'){
+            this.webService.emit('send-correo-propuestas', actualComponent.userChat);
+          }
+    
+          if(localStorage.getItem('actualComponent')=='Apertura de cursos'){
+            this.webService.emit('send-correo-aperturas', actualComponent.userChat);
+          }
+    
+          if(localStorage.getItem('actualComponent')=='Proyectos'){
+            this.webService.emit('send-correo-proyectos', actualComponent.userChat);
+          }
+        }
+
+      }
     });
 
   }
@@ -125,12 +184,9 @@ export class PostComponent implements OnInit{
       }
     }
 
-    // this.webService.emit(this.eventName, this.userChat);
-    
   }
 
   verLikesAdmin(){
-    // console.log(this.actualComponent);
 
     if(this.userChat.likes==0){
       alert('Todavía nadie le ha dado like');
@@ -146,6 +202,11 @@ export class PostComponent implements OnInit{
   }
 
   makeAComment(actualComponent:any,mensaje:any){
+
+    for(var i = 0; i < this.malasPalabras.length;i++){
+      var regex = new RegExp("(^|\\s)"+this.malasPalabras[i]+"($|(?=\\s))","gi")
+      mensaje.value = mensaje.value.replace(regex, function($0:any, $1:any){return $1 + "*****"});
+    }
 
     if(mensaje.value!=''){
       if(localStorage.getItem('actualComponent')!= undefined){
@@ -165,7 +226,6 @@ export class PostComponent implements OnInit{
         }
       }
 
-      // this.webService.emit(this.eventName2, {user: this.activated.snapshot.params.user, comment: mensaje.value, commentID: this.userChat.id});
       mensaje.value='';
     }else{
       console.log('no hay nada');
@@ -174,30 +234,93 @@ export class PostComponent implements OnInit{
     
   }
 
+  onEditarPost(actualComponent:any){
+    // console.log(actualComponent.userChat.text);
+    Swal.fire({
+      title: 'Editar publicación.',
+      inputValue:`${actualComponent.userChat.text}`,
+      input: 'text',
+      inputAttributes: {
+        autocapitalize: 'off'
+      },
+      showCancelButton: true,
+      confirmButtonText: 'Guardar cambios',
+      denyButtonText: `No guardar cambios`
+    }).then((result:any) => {
+      if (result.isConfirmed) {
+        this.userChat.text=result.value;
+
+        if(localStorage.getItem('actualComponent')!= undefined){
+          if(localStorage.getItem('actualComponent')=='Propuestas estudiantiles'){
+            this.webService.emit('update-propuestas',this.userChat);
+            this.fireService.updatePost(this.userChat,'propuestas');
+            Swal.fire('Actualizado correctamente!');
+          }
+    
+          if(localStorage.getItem('actualComponent')=='Apertura de cursos'){
+            this.webService.emit('update-aperturas',this.userChat);
+            this.fireService.updatePost(this.userChat,'aperturas');
+            Swal.fire('Actualizado correctamente!');
+          }
+    
+          if(localStorage.getItem('actualComponent')=='Proyectos'){
+            this.webService.emit('update-proyectos',this.userChat);
+            this.fireService.updatePost(this.userChat,'proyectos');
+            Swal.fire('Actualizado correctamente!');
+          }
+        }
+        
+      }
+    })
+    
+  }
+
   onEliminarPost(actualComponent:any){
 
-    if(localStorage.getItem('actualComponent')!= undefined){
-      if(localStorage.getItem('actualComponent')=='Propuestas estudiantiles'){
-        this.webService.emit('delete-propuestas',actualComponent.userChat);
-        this.fireService.deleteP('propuestas',actualComponent.userChat);
-      }
+    Swal.fire({
+      title: 'Eliminar publicación?',
+      text: "Esto no se puede revertir",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Borrar'
+    }).then((result:any) => {
+      if (result.isConfirmed) {
+        Swal.fire(
+          'Eliminado correctamente!'
+        )
+        if(localStorage.getItem('actualComponent')!= undefined){
+          if(localStorage.getItem('actualComponent')=='Propuestas estudiantiles'){
+            this.webService.emit('delete-propuestas',actualComponent.userChat);
+            this.fireService.deleteP('propuestas',actualComponent.userChat);
+          }
+    
+          if(localStorage.getItem('actualComponent')=='Apertura de cursos'){
+            this.webService.emit('delete-aperturas',actualComponent.userChat);
+            this.fireService.deleteP('aperturas',actualComponent.userChat);
+          }
+    
+          if(localStorage.getItem('actualComponent')=='Proyectos'){
+            this.webService.emit('delete-proyectos',actualComponent.userChat);
+            this.fireService.deleteP('proyectos',actualComponent.userChat);
+          }
+        }
 
-      if(localStorage.getItem('actualComponent')=='Apertura de cursos'){
-        this.webService.emit('delete-aperturas',actualComponent.userChat);
-        this.fireService.deleteP('aperturas',actualComponent.userChat);
-      }
 
-      if(localStorage.getItem('actualComponent')=='Proyectos'){
-        this.webService.emit('delete-proyectos',actualComponent.userChat);
-        this.fireService.deleteP('proyectos',actualComponent.userChat);
+
+      }else{
+
       }
-    }
+    })
+    
+
 
     // this.webService.emit('delete-post',actualComponent.userChat);
   }
 
   showName(){
-    alert('Usuario: '+this.userChat.user);
+    Swal.fire('Usuario: '+this.userChat.user);
   }
 
 }

@@ -58,6 +58,7 @@
     align-items: center;
     justify-content: center;
     width: 20%;
+    font-weight: bolder;
 }
 
 .propBox{
@@ -65,8 +66,9 @@
     flex-direction: column;
     width: 70%;
     padding: 1.5vh 1vw 2vh 1vw;
-    background-color: #f2f2f2;
+    /* background-color: #f2f2f2; */
     border-radius: 1vw;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
 }
 
 .messageBox{
@@ -92,7 +94,8 @@
     padding-left: 0.5vw;
     background-color: white;
     border: 0;
-    border-radius: 0.5vw;
+    border-radius: 0.3vw;
+    border-bottom: 1px solid #F68B20;
 }
 
 .enviarC{
@@ -106,17 +109,45 @@
     cursor: pointer;
 }
 
+.adminOptions{
+    display: flex;
+    flex-direction: column;
+}
+
 .eliminarPost{
     margin-left: 1vh;
     width: 2.5vw;
     height: 5vh;
-    border-radius: 50%;
-    background-color: cyan;
     border: 0;
     background-image: url('../../../assets/eliminar.png');
     background-position: center;
+    background-size: 75% 75%;
+    background-repeat: no-repeat;
+    cursor: pointer;
+}
+
+.enviarCorreo{
+    margin-left: 1vh;
+    margin-top: 2.7vh;
+    width: 2.5vw;
+    height: 5vh;
+    border: 0;
+    background-image: url('../../../assets/enviarCorreo.png');
+    background-position: center;
+    background-size: 95% 95%;
+    background-repeat: no-repeat;
+    cursor: pointer;
+}
+
+.editarPost{
+    margin-left: 1vh;
+    margin-top: 2.7vh;
+    width: 2.5vw;
+    height: 5vh;
+    border: 0;
+    background-image: url('../../../assets/editar.png');
+    background-position: center;
     background-size: 55% 55%;
     background-repeat: no-repeat;
-    filter: invert(100%);
     cursor: pointer;
 }

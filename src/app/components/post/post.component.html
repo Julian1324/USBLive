@@ -25,5 +25,10 @@
         <app-comment *ngFor='let m of userChat.userComments' [userComments]=m [isAdmin]=isAdmin [userChat]=this.userChat></app-comment>
     </div>
     <!-- <button class="borrar" *ngIf='isAdmin' (click)='verLikesAdmin()'></button> -->
-    <div class="eliminarPost" *ngIf='isAdmin' (click)='onEliminarPost(this)'></div>
+    <div class="adminOptions">
+        <div class="eliminarPost" *ngIf='isAdmin==true || this.userChat.user==this.activated.snapshot.params.user' (click)='onEliminarPost(this)'></div>
+        <div class="enviarCorreo" *ngIf='isAdmin==true' (click)='onEnviarCorreo(this)' ></div>
+        <div class="editarPost" *ngIf='this.userChat.user==this.activated.snapshot.params.user' (click)='onEditarPost(this)' ></div>
+
+    </div>
 </div>
