@@ -123,7 +123,7 @@ export class CommentComponent implements OnInit {
   }
 
   showName(userComment:any){
-    alert(userComment.user);
+    Swal.fire(userComment.user);
   }
 
 }

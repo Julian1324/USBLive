@@ -2,8 +2,8 @@ import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { WebSocketService } from 'src/app/services/web-socket.service';
 import { FirestoreService } from 'src/app/services/firestore.service';
-// import * as deepai  from "node_modules/deepai/dist";
 var deepai = require('deepai');
+const Swal = require('sweetalert2');
 
 @Component({
   selector: 'app-home',
@@ -208,7 +208,7 @@ export class HomeComponent implements OnInit {
       if(resp.output.nsfw_score>0.4){
         var preV:any= document.querySelector('.previsualizacionIMG');
         preV.src='';
-        alert('Esta imagen no se puede publicar porque contiene desnudos. Tu comentario se publicará sin la imagen.');
+        Swal.fire('Esta imagen no se puede publicar porque contiene desnudos. Tu comentario se publicará sin la imagen.');
       }else{
         this.userChat.flyer= this.reader.result+'';
         var preV:any= document.querySelector('.previsualizacionIMG');
@@ -232,10 +232,6 @@ export class HomeComponent implements OnInit {
       var regex = new RegExp("(^|\\s)"+this.malasPalabras[i]+"($|(?=\\s))","gi")
       this.userChat.text = this.userChat.text.replace(regex, function($0:any, $1:any){return $1 + "*****"});
     }
-
-    // if(checkMalasPalabras(this.userChat.text) == true){
-    //   window.alert("Mala palabra encontrada: " + this.userChat.text);
-    // }
 
     if(localStorage.getItem('actualComponent')!= undefined && this.userChat.text!=''){
       if(localStorage.getItem('actualComponent')=='Propuestas estudiantiles'){
@@ -271,10 +267,6 @@ export class HomeComponent implements OnInit {
     }
     
     this.userChat.text='';
-  }
-
-  masDocs(){
-    // alert("Agrega algo pues")
   }
 
   toSearch(num:any){

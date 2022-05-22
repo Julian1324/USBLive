@@ -189,14 +189,13 @@ export class PostComponent implements OnInit{
   verLikesAdmin(){
 
     if(this.userChat.likes==0){
-      alert('Todavía nadie le ha dado like');
+      Swal.fire('Todavía nadie le ha dado like');
     }else{
       var nombres:any=[];
       this.userChat.userLikes.forEach((element:any) => {
         nombres.push(element.user);
       });
-
-      alert('Personas que apoyan: '+nombres);
+      Swal.fire('Personas que apoyan: '+nombres);
     }
     
   }

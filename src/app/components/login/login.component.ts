@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FirestoreService } from 'src/app/services/firestore.service';
+const Swal = require('sweetalert2');
 
 @Component({
   selector: 'app-login',
@@ -55,7 +56,7 @@ export class LoginComponent implements OnInit {
         }); 
       }
       if(!this.ingreso){
-        alert('Datos incorrectos');
+        Swal.fire('Datos incorrectos');
       }
     } );
     
