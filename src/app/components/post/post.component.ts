@@ -164,23 +164,24 @@ export class PostComponent implements OnInit{
   }
 
   like(actualComponent:any){
+
+    var userID:any= localStorage.getItem('CanIn');
+    userID= userID.split('-')[1];
     
     if(localStorage.getItem('actualComponent')!= undefined){
       if(localStorage.getItem('actualComponent')=='Propuestas estudiantiles'){
-        // console.log(actualComponent.userChat);
-        
         this.webService.emit('send-like-propuestas', this.userChat);
-        this.fireService.sendLike(actualComponent.userChat,'propuestas',this.activated.snapshot.params.user);
+        this.fireService.sendLike(actualComponent.userChat,'propuestas',userID,this.activated.snapshot.params.user);
       }
 
       if(localStorage.getItem('actualComponent')=='Apertura de cursos'){
         this.webService.emit('send-like-aperturas', this.userChat);
-        this.fireService.sendLike(actualComponent.userChat,'aperturas',this.activated.snapshot.params.user);
+        this.fireService.sendLike(actualComponent.userChat,'aperturas',userID,this.activated.snapshot.params.user);
       }
 
       if(localStorage.getItem('actualComponent')=='Proyectos'){
         this.webService.emit('send-like-proyectos', this.userChat);
-        this.fireService.sendLike(actualComponent.userChat,'proyectos',this.activated.snapshot.params.user);
+        this.fireService.sendLike(actualComponent.userChat,'proyectos',userID,this.activated.snapshot.params.user);
       }
     }
 
@@ -188,7 +189,7 @@ export class PostComponent implements OnInit{
 
   verLikesAdmin(){
 
-    if(this.userChat.likes==0){
+    if(this.userChat.likes==0 || this.userChat.likes==undefined || this.userChat.userLikes==undefined){
       Swal.fire('Todavía nadie le ha dado like');
     }else{
       var nombres:any=[];
@@ -202,6 +203,9 @@ export class PostComponent implements OnInit{
 
   makeAComment(actualComponent:any,mensaje:any){
 
+    var userID:any = localStorage.getItem('CanIn');
+    userID= userID.split('-')[1];
+
     for(var i = 0; i < this.malasPalabras.length;i++){
       var regex = new RegExp("(^|\\s)"+this.malasPalabras[i]+"($|(?=\\s))","gi")
       mensaje.value = mensaje.value.replace(regex, function($0:any, $1:any){return $1 + "*****"});
@@ -211,17 +215,17 @@ export class PostComponent implements OnInit{
       if(localStorage.getItem('actualComponent')!= undefined){
         if(localStorage.getItem('actualComponent')=='Propuestas estudiantiles'){
           this.webService.emit('comment-propuestas', {user: this.activated.snapshot.params.user, comment: mensaje.value, commentID: this.userChat.id});
-          this.fireService.sendComment(actualComponent.userChat,'propuestas',this.activated.snapshot.params.user,mensaje.value);
+          this.fireService.sendComment(actualComponent.userChat,'propuestas',userID,this.activated.snapshot.params.user,mensaje.value);
         }
   
         if(localStorage.getItem('actualComponent')=='Apertura de cursos'){
           this.webService.emit('comment-aperturas', {user: this.activated.snapshot.params.user, comment: mensaje.value, commentID: this.userChat.id});
-          this.fireService.sendComment(actualComponent.userChat,'aperturas',this.activated.snapshot.params.user,mensaje.value);
+          this.fireService.sendComment(actualComponent.userChat,'aperturas',userID,this.activated.snapshot.params.user,mensaje.value);
         }
   
         if(localStorage.getItem('actualComponent')=='Proyectos'){
           this.webService.emit('comment-proyectos', {user: this.activated.snapshot.params.user, comment: mensaje.value, commentID: this.userChat.id});
-          this.fireService.sendComment(actualComponent.userChat,'proyectos',this.activated.snapshot.params.user,mensaje.value);
+          this.fireService.sendComment(actualComponent.userChat,'proyectos',userID,this.activated.snapshot.params.user,mensaje.value);
         }
       }
 
@@ -234,7 +238,6 @@ export class PostComponent implements OnInit{
   }
 
   onEditarPost(actualComponent:any){
-    // console.log(actualComponent.userChat.text);
     Swal.fire({
       title: 'Editar publicación.',
       inputValue:`${actualComponent.userChat.text}`,

@@ -14,6 +14,7 @@ export class HomeComponent implements OnInit {
   userChat={
     id:0,
     user:'',
+    userID:'',
     flyer:'',
     text: '',
     likes:0,
@@ -89,24 +90,6 @@ export class HomeComponent implements OnInit {
       this.aperturas=data;
     });
 
-    // this.webService.listen('deleteP-event').subscribe((data) =>{
-    //   this.myMessages=data;
-      
-    // });
-
-    // if(localStorage.getItem('actualComponent')!= undefined){
-    //   if(localStorage.getItem('actualComponent')=='Propuestas estudiantiles'){
-    //     this.refreshMessages('propuestas');
-    //   }
-
-    //   if(localStorage.getItem('actualComponent')=='Apertura de cursos'){
-    //     this.refreshMessages('aperturas');
-    //   }
-
-    //   if(localStorage.getItem('actualComponent')=='Proyectos'){
-    //     this.refreshMessages('proyectos');
-    //   }
-    // }
     this.isadminn();
   }
 
@@ -117,8 +100,6 @@ export class HomeComponent implements OnInit {
           
           if(data.val().nombre==this.activated.snapshot.params.user){
             this.isAdmin=data.val().isAdmin;
-          }else{
-            // console.log('nonas');
           }
         }); 
       }
@@ -127,45 +108,17 @@ export class HomeComponent implements OnInit {
     } );
   }
 
-  // refreshMessages(section:string){
-  //   this.webService.emit('init-app', this.userChat);
-
-  //   this.fireService.getMessages(section).then( (snapshot) => {
-      
-  //     if (snapshot.exists()) {
-  //       snapshot.forEach((data:any) => {
-  //         this.userChat= data.val();
-  //         this.webService.emit(this.eventName, this.userChat );
-  //         this.userChat.text='';
-  //       });
-        
-  //     } else {
-  //       console.log("No data available");
-  //     }
-  //   }).catch((error) => {
-  //     console.error(error);
-  //   });
-
-  // }
-
   onMensajeProp(mensaje:any) {
-    // console.log(mensaje);
     this.propuestas=mensaje;
   }
 
   onMensajeAp(mensaje:any) {
-    // console.log(mensaje);
     this.aperturas=mensaje;
   }
 
   onMensajeProy(mensaje:any) {
     this.proyectos=mensaje;
   }
-
-  // onMensajeHijo2(userChatHijo:any) {
-  //   console.log(userChatHijo);
-  //   this.myMessages=userChatHijo;
-  // }
 
   onCommentProp(userChatHijo:any) {
     this.propuestas=userChatHijo;
@@ -194,6 +147,8 @@ export class HomeComponent implements OnInit {
   async myMessage(){
     this.userChat.user= this.activated.snapshot.params.user;
     this.userChat.text= this.userChat.text.trim();
+    var actualID:any=localStorage.getItem('CanIn');
+    this.userChat.userID= this.userChat.userID + actualID.split('-')[1];
     // this.userChat.id= this.myMessages.length+1;
     if(this.reader.result==null){
       this.userChat.flyer='';
@@ -201,9 +156,6 @@ export class HomeComponent implements OnInit {
       var resp = await deepai.callStandardApi("nsfw-detector", {
         image: `${this.reader.result}`,
       });
-
-      console.log(resp.output.nsfw_score);
-      
 
       if(resp.output.nsfw_score>0.4){
         var preV:any= document.querySelector('.previsualizacionIMG');
@@ -217,16 +169,7 @@ export class HomeComponent implements OnInit {
 
     }
     
-    // this.webService.emit(this.eventName, this.userChat );
     this.actualComponent=localStorage.getItem('actualComponent');
-
-    // const checkMalasPalabras = (palabra:any) => {
-    //   var rgx = new RegExp('/\[?(?:'+this.malasPalabras.join("|")+"|" + ")\]?/gi");
-    //   // var rgx = /\[?(?:mala|palabra2|palabra3|etc)\]?/gi
-    //   // console.log(rgx);
-      
-    //   return (rgx.test(palabra));
-    // }
 
     for(var i = 0; i < this.malasPalabras.length;i++){
       var regex = new RegExp("(^|\\s)"+this.malasPalabras[i]+"($|(?=\\s))","gi")
@@ -242,7 +185,7 @@ export class HomeComponent implements OnInit {
         }
         
         this.webService.emit('send-propuestas', this.userChat );
-        this.fireService.saveMessage(this.userChat.user, this.userChat.text, this.userChat.flyer, this.userChat.id, this.userChat.likes,'propuestas');
+        this.fireService.saveMessage(this.userChat.user, this.userChat.userID, this.userChat.text, this.userChat.flyer, this.userChat.id, this.userChat.likes,'propuestas');
       }
 
       if(localStorage.getItem('actualComponent')=='Apertura de cursos'){
@@ -252,7 +195,7 @@ export class HomeComponent implements OnInit {
           this.userChat.id= 1;
         }
         this.webService.emit('send-aperturas', this.userChat );
-        this.fireService.saveMessage(this.userChat.user, this.userChat.text, this.userChat.flyer, this.userChat.id, this.userChat.likes,'aperturas');
+        this.fireService.saveMessage(this.userChat.user, this.userChat.userID, this.userChat.text, this.userChat.flyer, this.userChat.id, this.userChat.likes,'aperturas');
       }
 
       if(localStorage.getItem('actualComponent')=='Proyectos'){
@@ -262,7 +205,7 @@ export class HomeComponent implements OnInit {
           this.userChat.id= 1;
         }
         this.webService.emit('send-proyectos', this.userChat );
-        this.fireService.saveMessage(this.userChat.user, this.userChat.text, this.userChat.flyer, this.userChat.id, this.userChat.likes,'proyectos');
+        this.fireService.saveMessage(this.userChat.user, this.userChat.userID, this.userChat.text, this.userChat.flyer, this.userChat.id, this.userChat.likes,'proyectos');
       }
     }
     
@@ -375,29 +318,9 @@ export class HomeComponent implements OnInit {
           }
         }
       }
-      // for (let i = 0; i < this.myMessages.length; i++) {
-      //   var cajaProp:any=document.querySelectorAll('.commentCont')[i];
-      //   cajaProp.style.transition='all 0.4s ease';
-      //   // console.log(cajaProp.style.display);
-        
-      //   if(!this.myMessages[i].text.match(prop)){
-      //     cajaProp.style.opacity='0';
 
-      //     if(cajaProp.getAnimations()[0]!=undefined){
-      //       cajaProp.getAnimations()[0].finished.then( (a:any)=>{
-      //         cajaProp= document.querySelectorAll('.commentCont')[i];
-      //         cajaProp.style.display='none';
-      //       } );
-      //     }
-          
-      //   }else{
-      //     cajaProp.style.opacity='1';
-      //     cajaProp.style.display='flex';
-      //   }
-      // }
     }else{
       var cajaProp:any=document.querySelectorAll('.commentCont');
-      // cajaProp.style.opacity='1';
       for (let i = 0; i < cajaProp.length; i++) {
         cajaProp[i].style.display='flex';
         cajaProp[i].style.opacity='1';

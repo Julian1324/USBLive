@@ -9,8 +9,9 @@ export class WatcherGuard implements CanActivate {
   canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-    var acceso = localStorage.getItem('CanIn');
-    if(acceso== route.params.user){
+    var acceso:any = localStorage.getItem('CanIn');
+    acceso= acceso.split('-');
+    if(acceso[0]== route.params.user){
       return true
     }else{
 

@@ -39,13 +39,14 @@ export class FirestoreService {
     });
   }
 
-  saveMessage(nombreUser: string, mensajeUser:string, flyerIMG:string, id:number, likess:number, section:string):any{
+  saveMessage(nombreUser: string, userID:string, mensajeUser:string, flyerIMG:string, id:number, likess:number, section:string):any{
 
     try {
       const db = getDatabase();
       set(ref(db, `${section}/` + id), {
         id:id,
         user: nombreUser,
+        userID: userID,
         flyer:flyerIMG,
         text: mensajeUser,
         likes: likess,
@@ -77,6 +78,7 @@ export class FirestoreService {
       set(ref(db, `${section}/` + user.id), {
         id:user.id,
         user: user.user,
+        userID: user.userID,
         flyer:user.flyer,
         text: user.text,
         likes: user.likes,
@@ -98,7 +100,7 @@ export class FirestoreService {
     return get(child(this.dbRef, `${section}/${id}/userComments`));
   }
 
-  sendLike(user: any,section:string,userLike:string):any {
+  sendLike(user: any,section:string,userIDLike:string,userLike:string):any {
     if(user.flyer==undefined || user.flyer==null || user.flyer=='undefined' || user.flyer=='null'){
       user.flyer='';
     }
@@ -109,10 +111,11 @@ export class FirestoreService {
         
         if(data.exists()){
           this.arregloUserLikes= data.val();
-          this.arregloUserLikes.push({user:userLike});
+          this.arregloUserLikes.push({userID:userIDLike,user:userLike});
           set(ref(db, `${section}/` + user.id), {
             id:user.id,
             user: user.user,
+            userID: user.userID,
             text: user.text,
             flyer:user.flyer,
             likes: user.likes + 1,
@@ -124,10 +127,11 @@ export class FirestoreService {
           set(ref(db, `${section}/` + user.id), {
             id:user.id,
             user: user.user,
+            userID: user.userID,
             text: user.text,
             flyer:user.flyer,
             likes: user.likes + 1,
-            userLikes: [{user: userLike}],
+            userLikes: [{userID:userIDLike,user: userLike}],
             userComments: this.arregloUserComments
           });
           
@@ -143,7 +147,7 @@ export class FirestoreService {
 
   }
 
-  sendComment(user: any,section:string,nameUserComment:string,userComment:string){
+  sendComment(user: any,section:string, userIDComment:number,nameUserComment:string,userComment:string){
     const db = getDatabase();
 
     if(user.flyer==undefined || user.flyer==null || user.flyer=='undefined' || user.flyer=='null'){
@@ -155,10 +159,11 @@ export class FirestoreService {
       
         if(data.exists()){
           this.arregloUserComments= data.val();
-          this.arregloUserComments.push({commentID: this.arregloUserComments.length, user:nameUserComment, comment:userComment});
+          this.arregloUserComments.push({commentID: this.arregloUserComments.length,userID:userIDComment, user:nameUserComment, comment:userComment});
           set(ref(db, `${section}/` + user.id), {
             id:user.id,
             user: user.user,
+            userID: user.userID,
             text: user.text,
             flyer: user.flyer,
             likes: user.likes,
@@ -170,11 +175,12 @@ export class FirestoreService {
           set(ref(db, `${section}/` + user.id), {
             id:user.id,
             user: user.user,
+            userID: user.userID,
             text: user.text,
             flyer: user.flyer,
             likes: user.likes,
             userLikes: this.arregloUserLikes,
-            userComments: [{commentID: this.arregloUserComments.length, user:nameUserComment,comment:userComment}]
+            userComments: [{commentID: this.arregloUserComments.length, userID:userIDComment, user:nameUserComment,comment:userComment}]
           });
           
         }
@@ -215,6 +221,7 @@ export class FirestoreService {
       set(ref(db, `${section}/` + user.id), {
         id:user.id,
         user: user.user,
+        userID: user.userID,
         text: user.text,
         likes: user.likes,
         userLikes: this.arregloUserLikes,

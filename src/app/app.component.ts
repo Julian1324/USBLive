@@ -19,6 +19,7 @@ export class AppComponent implements OnInit, AfterViewInit {
   userChat={
     id:0,
     user:'',
+    userID:'',
     text: '',
     likes:0,
     userLikes:[],
@@ -36,9 +37,6 @@ export class AppComponent implements OnInit, AfterViewInit {
 
   ngOnInit() {
     this.webService.listen('connection').subscribe( (data)=>{
-      // console.log('keke');
-      
-      // console.log(data);
       
     } );
   }
@@ -120,7 +118,6 @@ export class AppComponent implements OnInit, AfterViewInit {
           this.userChat= data.val();
           this.userChat.id= contador+1;
           contador++;
-          // console.log(this.userChat);
           
           
           this.webService.emit(`send-${section}`, this.userChat );
@@ -132,7 +129,6 @@ export class AppComponent implements OnInit, AfterViewInit {
               if(localStorage.getItem('nwUsr')==null){
                 setTimeout(() => {
                   Swal.fire('¡Esta es la sección de Propuestas estudiantiles, donde podrás proponer aquellas ideas que ayuden al campus y a la comunidad bonaventuriana!');
-                  // alert('¡Esta es la sección de Propuestas estudiantiles, donde podrás proponer aquellas ideas que ayuden al campus y a la comunidad bonaventuriana!');
                 }, 600);
               }
             }
@@ -141,7 +137,6 @@ export class AppComponent implements OnInit, AfterViewInit {
               if(localStorage.getItem('nwUsr')==null){
                 setTimeout(() => {
                   Swal.fire('¡Esta es la sección de Proyectos, donde podrás proponer aquellos proyectos en los que necesitas apoyo!');
-                  // alert('¡Esta es la sección de Proyectos, donde podrás proponer aquellos proyectos en los que necesitas apoyo!');
                 }, 600);
               }
             }
@@ -150,7 +145,6 @@ export class AppComponent implements OnInit, AfterViewInit {
               if(localStorage.getItem('nwUsr')==null){
                 setTimeout(() => {
                   Swal.fire('¡Esta es la sección de Apertura de cursos, donde podrás fomentar la apertura de cursos en los que necesitas estudiantes para abrirlo!');
-                  // alert('¡Esta es la sección de Apertura de cursos, donde podrás fomentar la apertura de cursos en los que necesitas estudiantes para abrirlo!');
                 }, 600);
               }
             }
@@ -158,10 +152,6 @@ export class AppComponent implements OnInit, AfterViewInit {
           }
         });
 
-        
-
-
-        
       } else {
         console.log("No data available");
       }

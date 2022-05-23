@@ -42,7 +42,7 @@ export class LoginComponent implements OnInit {
             if(data.val().contrasena== userPassword){
               this.ingreso=true;
               localStorage.setItem('correo',`${data.val().correo}`);
-              localStorage.setItem('CanIn',`${data.val().nombre}`);
+              localStorage.setItem('CanIn',`${data.val().nombre}-${data.val().id}`);
               this.router.navigate([`/home/${data.val().nombre}`], { relativeTo: this.route });
               return true;
             }else{
