@@ -109,6 +109,12 @@ export class FirestoreService {
 
       this.getUserLikes(section, user.id).then( (data)=>{
         
+        this.getUserComments(section, user.id).then((data)=>{
+          if (data.exists()) {
+            this.arregloUserComments= data.val();
+            
+          }
+        });
         if(data.exists()){
           this.arregloUserLikes= data.val();
           this.arregloUserLikes.push({userID:userIDLike,user:userLike});
@@ -124,6 +130,12 @@ export class FirestoreService {
           });
           
         }else{
+
+          this.getUserComments(section, user.id).then((data)=>{
+            if (data.exists()) {
+              this.arregloUserComments= data.val();
+            }
+          });
           set(ref(db, `${section}/` + user.id), {
             id:user.id,
             user: user.user,
@@ -156,6 +168,12 @@ export class FirestoreService {
 
     try {
       this.getUserComments(section, user.id).then( (data)=>{
+
+        this.getUserLikes(section, user.id).then( (data)=>{
+          if(data.exists()){
+            this.arregloUserLikes=data.val();
+          }
+        });
       
         if(data.exists()){
           this.arregloUserComments= data.val();
@@ -231,8 +249,6 @@ export class FirestoreService {
     } catch (error) {
       return false;
     }
-
-    
     
   }
 }

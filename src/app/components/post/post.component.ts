@@ -170,16 +170,43 @@ export class PostComponent implements OnInit{
     
     if(localStorage.getItem('actualComponent')!= undefined){
       if(localStorage.getItem('actualComponent')=='Propuestas estudiantiles'){
+        if(this.userChat.userLikes!= undefined){
+          if(this.userChat.userLikes.length==0){
+            this.userChat.userLikes=[{user: this.activated.snapshot.params.user, userID:userID}]
+          }else{
+            this.userChat.userLikes.push({user: this.activated.snapshot.params.user, userID:userID});
+          }
+        }else{
+          this.userChat.userLikes=[{user: this.activated.snapshot.params.user, userID:userID}]
+        }
         this.webService.emit('send-like-propuestas', this.userChat);
         this.fireService.sendLike(actualComponent.userChat,'propuestas',userID,this.activated.snapshot.params.user);
       }
 
       if(localStorage.getItem('actualComponent')=='Apertura de cursos'){
+        if(this.userChat.userLikes!= undefined){
+          if(this.userChat.userLikes.length==0){
+            this.userChat.userLikes=[{user: this.activated.snapshot.params.user, userID:userID}]
+          }else{
+            this.userChat.userLikes.push({user: this.activated.snapshot.params.user, userID:userID});
+          }
+        }else{
+          this.userChat.userLikes=[{user: this.activated.snapshot.params.user, userID:userID}]
+        }
         this.webService.emit('send-like-aperturas', this.userChat);
         this.fireService.sendLike(actualComponent.userChat,'aperturas',userID,this.activated.snapshot.params.user);
       }
 
       if(localStorage.getItem('actualComponent')=='Proyectos'){
+        if(this.userChat.userLikes!= undefined){
+          if(this.userChat.userLikes.length==0){
+            this.userChat.userLikes=[{user: this.activated.snapshot.params.user, userID:userID}]
+          }else{
+            this.userChat.userLikes.push({user: this.activated.snapshot.params.user, userID:userID});
+          }
+        }else{
+          this.userChat.userLikes=[{user: this.activated.snapshot.params.user, userID:userID}]
+        }
         this.webService.emit('send-like-proyectos', this.userChat);
         this.fireService.sendLike(actualComponent.userChat,'proyectos',userID,this.activated.snapshot.params.user);
       }
@@ -187,13 +214,14 @@ export class PostComponent implements OnInit{
 
   }
 
-  verLikesAdmin(){
-
-    if(this.userChat.likes==0 || this.userChat.likes==undefined || this.userChat.userLikes==undefined){
+  verLikesAdmin(actualComponent:any){
+    console.log(actualComponent.userChat);
+    
+    if(actualComponent.userChat.likes==0 || actualComponent.userChat.likes==undefined || actualComponent.userChat.userLikes==undefined){
       Swal.fire('Todavía nadie le ha dado like');
     }else{
       var nombres:any=[];
-      this.userChat.userLikes.forEach((element:any) => {
+      actualComponent.userChat.userLikes.forEach((element:any) => {
         nombres.push(element.user);
       });
       Swal.fire('Personas que apoyan: '+nombres);
