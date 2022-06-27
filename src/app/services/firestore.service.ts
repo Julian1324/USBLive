@@ -29,8 +29,6 @@ export class FirestoreService {
     return get(child(this.dbRef, `users/`));
   }
 
-
-
   addUser(nombreUser:string, contrasena:number, section:string){
     const db = getDatabase();
     set(ref(db, 'users/' + section), {
@@ -250,5 +248,28 @@ export class FirestoreService {
       return false;
     }
     
+  }
+
+  addBan(fechaFutura:Date, user:any){
+    try {
+      const db = getDatabase();
+      get(child(this.dbRef, `users/${user.userID}`)).then( (data) =>{
+        user= data.val();
+        // console.log(fechaFutura.getDate()+'-'+(fechaFutura.getMonth()+1)+'-'+fechaFutura.getFullYear());
+        
+        set(ref(db, `users/${user.id}`), {
+          contrasena:user.contrasena,
+          correo: user.correo,
+          id: user.id,
+          isAdmin: user.isAdmin,
+          nombre: user.nombre,
+          isBanned: `${fechaFutura.getDate()}-${(fechaFutura.getMonth()+1)}-${fechaFutura.getFullYear()}`
+        });
+        
+      });
+      return true;
+    } catch (error) {
+      return false;
+    }
   }
 }

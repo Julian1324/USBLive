@@ -2,6 +2,7 @@ import { Component, OnInit, AfterViewInit, Input } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { WebSocketService } from 'src/app/services/web-socket.service';
 import { FirestoreService } from 'src/app/services/firestore.service';
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 const Swal = require('sweetalert2');
 
 @Component({
@@ -30,9 +31,11 @@ export class AppComponent implements OnInit, AfterViewInit {
   mensajeHijo={};
   actualComponent:any;
   isAdmin:boolean=false;
+  auth:any;
 
   constructor(private activated: ActivatedRoute, private webService: WebSocketService, private fireService: FirestoreService, private router: Router, private route: ActivatedRoute) {
     this.entrada='';
+    this.auth = getAuth();
   }
 
   ngOnInit() {
@@ -167,6 +170,8 @@ export class AppComponent implements OnInit, AfterViewInit {
 
   onLogOut(){
     localStorage.setItem('CanIn','');
+    this.auth.signOut().then( ()=>{ console.log('Desconectado');
+    });
     this.router.navigate([`/`], { relativeTo: this.route });
   }
 }

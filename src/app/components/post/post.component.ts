@@ -48,6 +48,7 @@ export class PostComponent implements OnInit{
   }
 
   ngOnInit(): void {
+    // console.log('Hola');
 
     this.actualComponent=localStorage.getItem('actualComponent');
 
@@ -347,6 +348,35 @@ export class PostComponent implements OnInit{
 
 
     // this.webService.emit('delete-post',actualComponent.userChat);
+  }
+
+  onBan(actualComponent:any){
+    Swal.fire({
+      title: '¿Deseas suspender a este usuario? (Indica el número de días que deseas suspenderlo)',
+      inputValue:`1`,
+      input: 'number',
+      inputAttributes: {
+        autocapitalize: 'off'
+      },
+      showCancelButton: true,
+      confirmButtonText: 'Guardar cambios',
+      denyButtonText: `No guardar cambios`
+    }).then((result:any) => {
+      if (result.isConfirmed) {
+        var date= new Date();
+        result.value= parseInt(result.value);
+        if(result.value> 0){
+          date.setDate(date.getDate()+result.value);
+          this.fireService.addBan(date,actualComponent.userChat);
+        }else{
+          result.value= result.value*-1;
+          date.setDate(date.getDate()+result.value);
+          this.fireService.addBan(date,actualComponent.userChat);
+        }
+        
+      }
+    })
+    
   }
 
   showName(){

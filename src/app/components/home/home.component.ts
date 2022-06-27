@@ -33,6 +33,7 @@ export class HomeComponent implements OnInit {
   correoUserOnline:any;
   reader:FileReader;
   botonSearch=0;
+  canPublish:any;
   malasPalabras=[
     'puta','put4','perra','asesinato','bastardo','cabron','concha','picha','pene','p3ne','p3n3','chupa','chupar',
     'chupame','chupamela','bobo','boba','pendejo','pendeja','culo','culiar','culeo','culear','poronga','mierda',
@@ -100,11 +101,12 @@ export class HomeComponent implements OnInit {
           
           if(data.val().nombre==this.activated.snapshot.params.user){
             this.isAdmin=data.val().isAdmin;
+            if(data.val().isBanned!= undefined){
+              this.canPublish= data.val().isBanned;
+            }
           }
         }); 
       }
-      
-      
     } );
   }
 
@@ -145,71 +147,105 @@ export class HomeComponent implements OnInit {
   }
 
   async myMessage(){
-    this.userChat.user= this.activated.snapshot.params.user;
-    this.userChat.text= this.userChat.text.trim();
-    var actualID:any=localStorage.getItem('CanIn');
-    this.userChat.userID= this.userChat.userID + actualID.split('-')[1];
-    // this.userChat.id= this.myMessages.length+1;
-    if(this.reader.result==null){
-      this.userChat.flyer='';
-    }else{
-      var resp = await deepai.callStandardApi("nsfw-detector", {
-        image: `${this.reader.result}`,
-      });
 
-      if(resp.output.nsfw_score>0.4){
-        var preV:any= document.querySelector('.previsualizacionIMG');
-        preV.src='';
-        Swal.fire('Esta imagen no se puede publicar porque contiene desnudos. Tu comentario se publicará sin la imagen.');
+    if(this.canPublish!= undefined){
+      var hoy= new Date();
+      this.canPublish= this.canPublish.split('-');
+      console.log(this.canPublish);
+      
+  
+      if(hoy.getDate()>= parseInt(this.canPublish[0])){
+        if((hoy.getMonth()+1)>=parseInt(this.canPublish[1])){
+          if(hoy.getFullYear()>=parseInt(this.canPublish[2])){
+            this.canPublish=true;
+          }else{
+            this.canPublish=false;
+            console.log('aqui');
+            
+          }
+        }else{
+          this.canPublish=false;
+        }
       }else{
-        this.userChat.flyer= this.reader.result+'';
-        var preV:any= document.querySelector('.previsualizacionIMG');
-        preV.src='';
+        this.canPublish=false;
+        console.log('aqui3');
       }
 
+    }else{
+      this.canPublish=true;
+      console.log('aqui4');
     }
     
-    this.actualComponent=localStorage.getItem('actualComponent');
+    if(this.canPublish){
+      this.userChat.user= this.activated.snapshot.params.user;
+      this.userChat.text= this.userChat.text.trim();
+      var actualID:any=localStorage.getItem('CanIn');
+      this.userChat.userID= this.userChat.userID + actualID.split('-')[1];
+      if(this.reader.result==null){
+        this.userChat.flyer='';
+      }else{
+        var resp = await deepai.callStandardApi("nsfw-detector", {
+          image: `${this.reader.result}`,
+        });
+  
+        if(resp.output.nsfw_score>0.4){
+          var preV:any= document.querySelector('.previsualizacionIMG');
+          preV.src='';
+          Swal.fire('Esta imagen no se puede publicar porque contiene desnudos. Tu comentario se publicará sin la imagen.');
+        }else{
+          this.userChat.flyer= this.reader.result+'';
+          var preV:any= document.querySelector('.previsualizacionIMG');
+          preV.src='';
+        }
+  
+      }
+      
+      this.actualComponent=localStorage.getItem('actualComponent');
+  
+      for(var i = 0; i < this.malasPalabras.length;i++){
+        var regex = new RegExp("(^|\\s)"+this.malasPalabras[i]+"($|(?=\\s))","gi")
+        this.userChat.text = this.userChat.text.replace(regex, function($0:any, $1:any){return $1 + "*****"});
+      }
+  
+      if(localStorage.getItem('actualComponent')!= undefined && this.userChat.text!=''){
+        if(localStorage.getItem('actualComponent')=='Propuestas estudiantiles'){
+          if(this.propuestas.length>0){
+            this.userChat.id= this.propuestas[this.propuestas.length-1].id+1;
+          }else{
+            this.userChat.id= 1;
+          }
+          
+          this.webService.emit('send-propuestas', this.userChat );
+          this.fireService.saveMessage(this.userChat.user, this.userChat.userID, this.userChat.text, this.userChat.flyer, this.userChat.id, this.userChat.likes,'propuestas');
+        }
+  
+        if(localStorage.getItem('actualComponent')=='Apertura de cursos'){
+          if(this.aperturas.length>0){
+            this.userChat.id= this.aperturas[this.aperturas.length-1].id+1;
+          }else{
+            this.userChat.id= 1;
+          }
+          this.webService.emit('send-aperturas', this.userChat );
+          this.fireService.saveMessage(this.userChat.user, this.userChat.userID, this.userChat.text, this.userChat.flyer, this.userChat.id, this.userChat.likes,'aperturas');
+        }
+  
+        if(localStorage.getItem('actualComponent')=='Proyectos'){
+          if(this.proyectos.length>0){
+            this.userChat.id= this.proyectos[this.proyectos.length-1].id+1;
+          }else{
+            this.userChat.id= 1;
+          }
+          this.webService.emit('send-proyectos', this.userChat );
+          this.fireService.saveMessage(this.userChat.user, this.userChat.userID, this.userChat.text, this.userChat.flyer, this.userChat.id, this.userChat.likes,'proyectos');
+        }
+      }
+      
+      this.userChat.text='';
 
-    for(var i = 0; i < this.malasPalabras.length;i++){
-      var regex = new RegExp("(^|\\s)"+this.malasPalabras[i]+"($|(?=\\s))","gi")
-      this.userChat.text = this.userChat.text.replace(regex, function($0:any, $1:any){return $1 + "*****"});
+    }else{
+      this.userChat.text='';
+      Swal.fire('Lo sentimos, has sido baneado y no puedes publicar');
     }
-
-    if(localStorage.getItem('actualComponent')!= undefined && this.userChat.text!=''){
-      if(localStorage.getItem('actualComponent')=='Propuestas estudiantiles'){
-        if(this.propuestas.length>0){
-          this.userChat.id= this.propuestas[this.propuestas.length-1].id+1;
-        }else{
-          this.userChat.id= 1;
-        }
-        
-        this.webService.emit('send-propuestas', this.userChat );
-        this.fireService.saveMessage(this.userChat.user, this.userChat.userID, this.userChat.text, this.userChat.flyer, this.userChat.id, this.userChat.likes,'propuestas');
-      }
-
-      if(localStorage.getItem('actualComponent')=='Apertura de cursos'){
-        if(this.aperturas.length>0){
-          this.userChat.id= this.aperturas[this.aperturas.length-1].id+1;
-        }else{
-          this.userChat.id= 1;
-        }
-        this.webService.emit('send-aperturas', this.userChat );
-        this.fireService.saveMessage(this.userChat.user, this.userChat.userID, this.userChat.text, this.userChat.flyer, this.userChat.id, this.userChat.likes,'aperturas');
-      }
-
-      if(localStorage.getItem('actualComponent')=='Proyectos'){
-        if(this.proyectos.length>0){
-          this.userChat.id= this.proyectos[this.proyectos.length-1].id+1;
-        }else{
-          this.userChat.id= 1;
-        }
-        this.webService.emit('send-proyectos', this.userChat );
-        this.fireService.saveMessage(this.userChat.user, this.userChat.userID, this.userChat.text, this.userChat.flyer, this.userChat.id, this.userChat.likes,'proyectos');
-      }
-    }
-    
-    this.userChat.text='';
   }
 
   toSearch(num:any){

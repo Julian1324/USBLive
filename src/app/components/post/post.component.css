@@ -151,3 +151,16 @@
     background-repeat: no-repeat;
     cursor: pointer;
 }
+
+.banearUser{
+    margin-left: 1vh;
+    margin-top: 2.7vh;
+    width: 2.5vw;
+    height: 5vh;
+    border: 0;
+    background-image: url('../../../assets/bloquear-usuario.png');
+    background-position: center;
+    background-size: 85% 85%;
+    background-repeat: no-repeat;
+    cursor: pointer;
+}
